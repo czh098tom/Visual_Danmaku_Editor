@@ -1,0 +1,1 @@
+DEMO of a visualized Touhou style danmaku editor.

@@ -1,0 +1,16 @@
+{
+    "name": "VisualDanmakuEditor.Models",
+    "references": [
+        "GUID:d38f2154d10ae144da9a197f9d580bc2",
+        "GUID:c24e7dafaf1d7184cbd4689ce34d4ec6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

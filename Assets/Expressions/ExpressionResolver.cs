@@ -22,6 +22,7 @@ namespace Latticework.Expressions
         private char last;
         private bool first;
         private bool canBeNegative;
+        private bool previousTokenIsIdentifier;
         int i;
 
         public LinkedList<string> GetReversedPolandExpression(string expr)
@@ -69,17 +70,22 @@ namespace Latticework.Expressions
         {
             if (IsIdentifierOrNumber(token[0]))
             {
-                canBeNegative = false;
                 reversedPolandExpr.AddLast(token.ToString());
+                canBeNegative = false;
+                previousTokenIsIdentifier = true;
             }
             else if (token[0] == '(')
             {
-                canBeNegative = true;
                 @operator.Push(token.ToString());
+                if (previousTokenIsIdentifier)
+                {
+                    @operator.Push(FunctionCall.identifier);
+                }
+                canBeNegative = true;
+                previousTokenIsIdentifier = false;
             }
             else if (token[0] == ')')
             {
-                canBeNegative = false;
                 try
                 {
                     while (@operator.Peek() != "(")
@@ -92,6 +98,8 @@ namespace Latticework.Expressions
                 {
                     throw new ExpressionResolvingException("Brackets mismatched.", ioe);
                 }
+                canBeNegative = false;
+                previousTokenIsIdentifier = false;
             }
             else
             {
@@ -121,6 +129,8 @@ namespace Latticework.Expressions
                 {
                     @operator.Push(token.ToString());
                 }
+                canBeNegative = false;
+                previousTokenIsIdentifier = false;
             }
         }
 

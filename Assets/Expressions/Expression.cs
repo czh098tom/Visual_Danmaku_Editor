@@ -19,37 +19,41 @@ namespace Latticework.Expressions
 
         public float Calculate(Func<string, float> variableGetter)
         {
-            Stack<float> stack = new Stack<float>();
+            Stack<float> valueStack = new Stack<float>();
+            Stack<string> identifierStack = new Stack<string>();
             foreach (string s in reversedPolandExpr)
             {
                 if (IsIdentifierOrNumber(s[0]))
                 {
                     if (float.TryParse(s, out float res))
                     {
-                        stack.Push(res);
+                        valueStack.Push(res);
                     }
                     else
                     {
                         try
                         {
                             float f = variableGetter(s);
-                            stack.Push(f);
+                            valueStack.Push(f);
                         }
                         catch (Exception e)
                         {
                             throw new ExpressionCalculatingException($"Variable with name \"{s}\" cannot be found.", e);
                         }
                     }
+                    identifierStack.Push(s);
                 }
                 else
                 {
                     OperatorBase o = OperatorBase.GetOperator(s);
                     LinkedList<float> values = new LinkedList<float>();
+                    LinkedList<string> identifiers = new LinkedList<string>();
                     for (int i = 0; i < o.NumOfOprands; i++)
                     {
                         try
                         {
-                            values.AddFirst(stack.Pop());
+                            values.AddFirst(valueStack.Pop());
+                            identifiers.AddFirst(identifierStack.Pop());
                         }
                         catch (Exception e)
                         {
@@ -58,10 +62,11 @@ namespace Latticework.Expressions
                                 + $"required {o.NumOfOprands}, actual {o.NumOfOprands - i - 1}.", e);
                         }
                     }
-                    stack.Push(o.Calculate(values.ToArray()));
+                    valueStack.Push(o.CalculateWithIdentifiers(values.ToArray(), identifiers.ToArray()));
+                    identifierStack.Push("");
                 }
             }
-            return stack.Peek();
+            return valueStack.Peek();
         }
 
         public override string ToString()

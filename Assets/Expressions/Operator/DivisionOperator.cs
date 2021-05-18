@@ -11,7 +11,7 @@ namespace Latticework.Expressions.Operator
     {
         public override int Priority => 1;
 
-        public override float Calculate(params float[] parameters)
+        protected override float Calculate(params float[] parameters)
         {
             return parameters[0] / parameters[1];
         }

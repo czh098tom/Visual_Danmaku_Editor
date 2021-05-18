@@ -25,9 +25,9 @@ namespace Latticework.Expressions
                     StringAttribute sa = t.GetCustomAttribute<StringAttribute>();
                     if (t.IsSubclassOf(typeof(OperatorBase)) && sa != null)
                     {
-                        operatorCtor.Add(sa.StringForm, t.GetConstructor(nullType));
-                        cached.Add(sa.StringForm, operatorCtor[sa.StringForm].Invoke(nullParam) as OperatorBase);
-                        if (cached[sa.StringForm].NumOfOprands == 1) unary.Add(s);
+                        operatorCtor.Add(sa.MidString, t.GetConstructor(nullType));
+                        cached.Add(sa.MidString, operatorCtor[sa.MidString].Invoke(nullParam) as OperatorBase);
+                        if (cached[sa.MidString].NumOfOprands == 1) unary.Add(s);
                     }
                 }
             }
@@ -47,6 +47,11 @@ namespace Latticework.Expressions
         /// </summary>
         public virtual int Priority { get => 0; }
 
-        public abstract float Calculate(params float[] parameters);
+        protected abstract float Calculate(params float[] parameters);
+
+        public virtual float CalculateWithIdentifiers(float[] parameters, string[] identifiers)
+        {
+            return Calculate(parameters);
+        }
     }
 }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace Latticework.Expressions.Operator
 {
     [String("!=")]
-    internal class UnequalOperator : OperatorBase
+    internal class UnequalOperator : SimpleOperator
     {
         public override int Priority => 4;
 
-        protected override float Calculate(params float[] parameters)
+        protected override float CalculateWithNumberOnly(IReadOnlyList<float> parameters)
         {
             return parameters[0] == parameters[1] ? 0 : 1;
         }

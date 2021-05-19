@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Latticework.Expressions;
+using VisualDanmakuEditor.Models;
 
 public class ExprTest : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class ExprTest : MonoBehaviour
         { "c", 1.2f }
     };
 
+    [SerializeField]
+    string expr;
+
     // Start is called before the first frame update
     void Start()
     {
-        Expression expr = new Expression("1+sin(45+45*1)/2");
+        LuaSTGFunctionRegistry.Register();
+        Expression expr = new Expression(this.expr);
         Debug.Log(expr);
         Debug.Log(expr.Calculate(GetOrDefault));
     }

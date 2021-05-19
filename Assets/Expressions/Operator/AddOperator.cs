@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace Latticework.Expressions.Operator
 {
     [String("+")]
-    internal class AddOperator : OperatorBase
+    internal class AddOperator : SimpleOperator
     {
         public override int Priority => 2;
 
-        protected override float Calculate(params float[] parameters)
+        protected override float CalculateWithNumberOnly(IReadOnlyList<float> parameters)
         {
             return parameters[0] + parameters[1];
         }

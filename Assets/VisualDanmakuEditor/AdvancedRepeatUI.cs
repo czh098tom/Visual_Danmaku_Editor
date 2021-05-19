@@ -31,6 +31,7 @@ namespace VisualDanmakuEditor
 
         private void Awake()
         {
+            LuaSTGFunctionRegistry.Register();
             builder = new AdvancedRepeatUIBuilder(task);
         }
 

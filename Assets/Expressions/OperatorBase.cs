@@ -7,11 +7,12 @@ using System.Reflection;
 
 namespace Latticework.Expressions
 {
-    internal abstract class OperatorBase
+    public abstract class OperatorBase
     {
         private static Dictionary<string, ConstructorInfo> operatorCtor = null;
         private static readonly Dictionary<string, OperatorBase> cached = new Dictionary<string, OperatorBase>();
-        private static readonly HashSet<string> unary = new HashSet<string>();
+        private static Operator.FunctionCall functionCall;
+
         private readonly static object[] nullParam = new object[] { };
         private readonly static Type[] nullType = new Type[] { };
 
@@ -23,13 +24,13 @@ namespace Latticework.Expressions
                 foreach (Type t in typeof(OperatorBase).Assembly.GetTypes())
                 {
                     StringAttribute sa = t.GetCustomAttribute<StringAttribute>();
-                    if (t.IsSubclassOf(typeof(OperatorBase)) && sa != null)
+                    if (typeof(OperatorBase).IsAssignableFrom(t) && sa != null)
                     {
-                        operatorCtor.Add(sa.MidString, t.GetConstructor(nullType));
-                        cached.Add(sa.MidString, operatorCtor[sa.MidString].Invoke(nullParam) as OperatorBase);
-                        if (cached[sa.MidString].NumOfOprands == 1) unary.Add(s);
+                        operatorCtor.Add(sa.String, t.GetConstructor(nullType));
+                        cached.Add(sa.String, operatorCtor[sa.String].Invoke(nullParam) as OperatorBase);
                     }
                 }
+                functionCall = cached[Operator.FunctionCall.identifier] as Operator.FunctionCall;
             }
             try
             {
@@ -41,17 +42,28 @@ namespace Latticework.Expressions
             }
         }
 
-        public virtual int NumOfOprands { get => 2; }
+        public static void RegisterFunction(FunctionDescriptor function)
+        {
+            GetOperator(Operator.FunctionCall.identifier);
+            functionCall.Register(function);
+        }
+
+        protected readonly Stack<float> result = new Stack<float>();
+
+        public Stack<float> CalculateWithIdentifiers(IReadOnlyList<float> parameters, IReadOnlyList<string> identifiers)
+        {
+            result.Clear();
+            Calculate(parameters, identifiers);
+            return result;
+        }
+
         /// <summary>
         /// Store priority of an operator. Operator with smaller priority is calculated first.
         /// </summary>
         public virtual int Priority { get => 0; }
 
-        protected abstract float Calculate(params float[] parameters);
+        public abstract IEnumerable<ExpressionCalculatingException> OperandCounter(Stack<float> values, Stack<string> identifiers);
 
-        public virtual float CalculateWithIdentifiers(float[] parameters, string[] identifiers)
-        {
-            return Calculate(parameters);
-        }
+        public abstract void Calculate(IReadOnlyList<float> parameters, IReadOnlyList<string> identifiers);
     }
 }

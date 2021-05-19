@@ -11,25 +11,38 @@ namespace Latticework.Expressions.Operator
     {
         public const string identifier = "[call]";
 
-        public override int Priority => 10;
+        private readonly Dictionary<string, Func<IReadOnlyList<float>, float>> functions
+            = new Dictionary<string, Func<IReadOnlyList<float>, float>>();
+        private readonly Dictionary<string, int> parameterCount = new Dictionary<string, int>();
 
-        protected override float Calculate(params float[] parameters)
+        private readonly List<float> orderedParameters = new List<float>();
+
+        public override int Priority => 11;
+
+        internal void Register(FunctionDescriptor function)
         {
-            throw new NotImplementedException();
+            functions.Add(function.Name, function.Function);
+            parameterCount.Add(function.Name, function.ParameterCount);
         }
 
-        public override float CalculateWithIdentifiers(float[] parameters, string[] identifiers)
+        public override IEnumerable<ExpressionCalculatingException> OperandCounter(Stack<float> values, Stack<string> identifiers)
         {
-            switch (identifiers[0])
+            while (!functions.ContainsKey(identifiers.Peek()))
             {
-                case "sin":
-                    return Convert.ToSingle(Math.Sin(parameters[1] * Math.PI / 180));
-                case "cos":
-                    return Convert.ToSingle(Math.Cos(parameters[1] * Math.PI / 180));
-                default:
-                    break;
+                yield return null;
             }
-            throw new NotImplementedException();
+            yield return null;
+        }
+
+        public override void Calculate(IReadOnlyList<float> parameters, IReadOnlyList<string> identifiers)
+        {
+            orderedParameters.Clear();
+            for (int i = parameters.Count - 2; i >= 0; i--)
+            {
+                orderedParameters.Add(parameters[i]);
+            }
+
+            result.Push((float)(functions[identifiers[identifiers.Count - 1]].Invoke(orderedParameters)));
         }
     }
 }

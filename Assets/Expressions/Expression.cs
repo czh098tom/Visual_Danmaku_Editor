@@ -21,6 +21,9 @@ namespace Latticework.Expressions
         {
             Stack<float> valueStack = new Stack<float>();
             Stack<string> identifierStack = new Stack<string>();
+
+            List<float> values = new List<float>(10);
+            List<string> identifiers = new List<string>(10);
             foreach (string s in reversedPolandExpr)
             {
                 if (IsIdentifierOrNumber(s[0]))
@@ -46,24 +49,26 @@ namespace Latticework.Expressions
                 else
                 {
                     OperatorBase o = OperatorBase.GetOperator(s);
-                    LinkedList<float> values = new LinkedList<float>();
-                    LinkedList<string> identifiers = new LinkedList<string>();
-                    for (int i = 0; i < o.NumOfOprands; i++)
+                    values.Clear();
+                    identifiers.Clear();
+                    foreach (ExpressionCalculatingException ecex in o.OperandCounter(valueStack, identifierStack))
                     {
-                        try
+                        if (ecex == null)
                         {
-                            values.AddFirst(valueStack.Pop());
-                            identifiers.AddFirst(identifierStack.Pop());
+                            values.Add(valueStack.Pop());
+                            identifiers.Add(identifierStack.Pop());
                         }
-                        catch (Exception e)
+                        else
                         {
-                            throw new ExpressionResolvingException(
-                                $"Argument count for operator \"{s}\" is not sufficient, "
-                                + $"required {o.NumOfOprands}, actual {o.NumOfOprands - i - 1}.", e);
+                            throw ecex;
                         }
                     }
-                    valueStack.Push(o.CalculateWithIdentifiers(values.ToArray(), identifiers.ToArray()));
-                    identifierStack.Push("");
+                    Stack<float> result = o.CalculateWithIdentifiers(values, identifiers);
+                    while (result.Count > 0)
+                    {
+                        valueStack.Push(result.Pop());
+                        identifierStack.Push("");
+                    }
                 }
             }
             return valueStack.Peek();

@@ -17,7 +17,17 @@ namespace VisualDanmakuEditor
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
+        private void Start()
+        {
+            ShowPrediction();
+        }
+
         private void Update()
+        {
+            ShowPrediction();
+        }
+
+        private void ShowPrediction()
         {
             int t = TimeLine.Instance.CurrentTime;
             if (t >= BulletModel.LifeTimeBegin && t < BulletModel.LifeTimeEnd)

@@ -130,6 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 449212888}
+  - component: {fileID: 449212889}
   m_Layer: 0
   m_Name: Coord
   m_TagString: Untagged
@@ -152,6 +153,19 @@ Transform:
   m_Father: {fileID: 1333840218}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &449212889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449212887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6150435dd02064d4ca5fc614928bdec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4314460256703843480, guid: 1c7987bd3b2710e44a05e309364b281f, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,12 +735,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376147919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b822cafe2c3f9540a13550192946459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expr: hypot(2+1,0+4)
+  expr: hypot(2+1,0+4,3+3)
 --- !u!1 &1383799383
 GameObject:
   m_ObjectHideFlags: 0

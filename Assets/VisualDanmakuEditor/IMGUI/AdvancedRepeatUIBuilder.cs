@@ -15,9 +15,13 @@ namespace VisualDanmakuEditor.IMGUI
 {
     public class AdvancedRepeatUIBuilder
     {
-        TaskModel task; 
+        TaskModel task;
 
         float height;
+
+        float currOffset = 0;
+        float currIndention = 10;
+        float currWidth = windowWidth - 20;
 
         public AdvancedRepeatUIBuilder(TaskModel task)
         {
@@ -40,46 +44,37 @@ namespace VisualDanmakuEditor.IMGUI
 
         public bool BuildUI(bool isDirty)
         {
-            float currOffset = 0;
-            float currIndention = 10;
-            float currWidth = windowWidth - 20;
+            currOffset = 0;
+            currIndention = 10;
+            currWidth = windowWidth - 20;
 
             HashSet<AdvancedRepeatModel> repToBeDestroyed = new HashSet<AdvancedRepeatModel>();
             Dictionary<VariableModelBase, AdvancedRepeatModel> varToBeDestroyed = new Dictionary<VariableModelBase, AdvancedRepeatModel>();
 
             foreach (AdvancedRepeatModel rep in task)
             {
-                rep.Times = TryConvertInt(LabelledTextField(new Rect(currIndention, currOffset, currWidth - shortLabelWidth, elementHeight)
-                    , "Times", rep.Times.ToString()));
+                BuildLabelledItem("Times", GUI.TextField, (v) => rep.Times = TryConvertInt(v), () => rep.Times.ToString()
+                    , shortLabelWidth, false);
                 if (GUI.Button(new Rect(currIndention + currWidth - shortLabelWidth, currOffset, shortLabelWidth, elementHeight), "-"))
                 {
                     repToBeDestroyed.Add(rep);
                 }
-                currOffset += elementHeight;
-
-                currIndention += levelIndention;
-                currWidth -= levelIndention;
+                MakeOffset();
+                MakeIndention();
 
                 foreach (VariableModelBase var in rep)
                 {
-                    var.VariableName = LabelledTextField(new Rect(currIndention, currOffset, currWidth - shortLabelWidth, elementHeight)
-                        , "Name", var.VariableName);
+                    BuildLabelledItem("Name", GUI.TextField, (v) => var.VariableName = v, () => var.VariableName, shortLabelWidth, false);
                     if (GUI.Button(new Rect(currIndention + currWidth - shortLabelWidth, currOffset, shortLabelWidth, elementHeight), "-"))
                     {
                         varToBeDestroyed.Add(var, rep);
                     }
-                    currOffset += elementHeight;
+                    MakeOffset();
                     if (var is LinearVariable lv)
                     {
-                        lv.Begin = LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                            , "Begin", lv.Begin);
-                        currOffset += elementHeight;
-                        lv.End = LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                            , "End", lv.End);
-                        currOffset += elementHeight;
-                        lv.IsPrecisely = GUI.Toggle(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                            , lv.IsPrecisely, "Is Precisely");
-                        currOffset += elementHeight;
+                        BuildLabelledItem("Begin", GUI.TextField, (v) => lv.Begin = v, () => lv.Begin);
+                        BuildLabelledItem("End", GUI.TextField, (v) => lv.End = v, () => lv.End);
+                        BuildLabelledItem("", (r, b) => GUI.Toggle(r, b, "Include Endpoint"), (v) => lv.IsPrecisely = v, () => lv.IsPrecisely);
                         currOffset += elementHeight * 0.5f;
                     }
                 }
@@ -87,32 +82,21 @@ namespace VisualDanmakuEditor.IMGUI
                 {
                     rep.AddLast(new LinearVariable());
                 }
-                currOffset += elementHeight;
+                MakeOffset();
             }
 
             if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), "+ Repeat"))
             {
                 task.AddLast(new AdvancedRepeatModel());
             }
-            currOffset += elementHeight;
+            MakeOffset();
 
-            currIndention = 10;
-            currWidth = windowWidth - 20;
-            task.XExpression = LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                , "X", task.XExpression);
-            currOffset += elementHeight;
-            task.YExpression = LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                , "Y", task.YExpression);
-            currOffset += elementHeight;
-            task.RotationExpression = LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                , "Rotation", task.RotationExpression);
-            currOffset += elementHeight;
-            task.VelocityExpression = LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                , "Velocity", task.VelocityExpression);
-            currOffset += elementHeight;
-            task.Interval = TryConvertInt(LabelledTextField(new Rect(currIndention, currOffset, currWidth, elementHeight)
-                , "Interval", task.Interval.ToString()));
-            currOffset += elementHeight;
+            ResetIndention();
+            BuildLabelledItem("X", GUI.TextField, (v) => task.XExpression = v, () => task.XExpression);
+            BuildLabelledItem("Y", GUI.TextField, (v) => task.YExpression = v, () => task.YExpression);
+            BuildLabelledItem("Rotation", GUI.TextField, (v) => task.RotationExpression = v, () => task.RotationExpression);
+            BuildLabelledItem("Velocity", GUI.TextField, (v) => task.VelocityExpression = v, () => task.VelocityExpression);
+            BuildLabelledItem("Interval", GUI.TextField, (v) => task.Interval = TryConvertInt(v), () => task.Interval.ToString());
 
             GUI.EndScrollView();
 
@@ -129,6 +113,31 @@ namespace VisualDanmakuEditor.IMGUI
             }
 
             return isDirty || GUI.changed;
+        }
+
+        private void BuildLabelledItem<TAccepts>(string label, Func<Rect, TAccepts, TAccepts> imgui
+            , Action<TAccepts> setter, Func<TAccepts> getter, float spacing = 0, bool finished = true)
+        {
+            GUI.Label(new Rect(currIndention, currOffset, labelWidth, elementHeight), label);
+            setter(imgui(new Rect(currIndention + labelWidth, currOffset, currWidth - labelWidth - spacing, elementHeight), getter()));
+            if (finished) MakeOffset();
+        }
+
+        private void MakeOffset()
+        {
+            currOffset += elementHeight;
+        }
+
+        private void ResetIndention()
+        {
+            currIndention = 10;
+            currWidth = windowWidth - 20;
+        }
+
+        private void MakeIndention()
+        {
+            currIndention += levelIndention;
+            currWidth -= levelIndention;
         }
     }
 }

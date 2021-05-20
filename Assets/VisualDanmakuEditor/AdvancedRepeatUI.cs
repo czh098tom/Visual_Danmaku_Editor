@@ -17,13 +17,14 @@ namespace VisualDanmakuEditor
         [SerializeField]
         private GameObject bullet;
 
-        private Rect editWindowSize = new Rect(0, 0, windowWidth, elementHeight * (elementCount + 3));
+        private BulletObjectPool objectPool;
+
+        private Rect editWindowSize = new Rect(100, 0, windowWidth, elementHeight * (elementCount + 3));
         private Vector2 scrollPosition = Vector2.zero;
 
         float height;
 
         bool isDirty = true;
-        readonly HashSet<PredictedBullet> predictedBullets = new HashSet<PredictedBullet>();
 
         readonly TaskModel task = new TaskModel();
 
@@ -33,6 +34,7 @@ namespace VisualDanmakuEditor
         {
             LuaSTGFunctionRegistry.Register();
             builder = new AdvancedRepeatUIBuilder(task);
+            objectPool = FindObjectOfType<BulletObjectPool>();
         }
 
         private void Update()
@@ -60,27 +62,26 @@ namespace VisualDanmakuEditor
 
         private void Calculate()
         {
-#if !UNITY_EDITOR
             try
             {
-#endif
-                foreach (PredictedBullet pred in predictedBullets) Destroy(pred.gameObject);
-                predictedBullets.Clear();
+                objectPool.DeactivateAll();
+                int i = 0;
                 foreach (PredictableBulletModel model in task.GetPredictableBulletModels())
                 {
-                    GameObject go = Instantiate(bullet, transform.parent, true);
-                    PredictedBullet pred = go.GetComponent<PredictedBullet>();
+                    PredictedBullet pred = objectPool.AllocateObject().PredictedBullet;
                     pred.BulletModel = model;
-                    pred.Hide();
-                    predictedBullets.Add(pred);
+                    i++;
+                    if (i > 4000) throw new Exception("4000+");
                 }
-#if !UNITY_EDITOR
             }
+#if !UNITY_EDITOR
             catch (Exception e) 
             {
                 Debug.LogError(e);
-            }
+#else
+            finally {
 #endif
+            }
         }
     }
 }

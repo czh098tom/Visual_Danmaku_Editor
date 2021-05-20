@@ -13,7 +13,7 @@ namespace Latticework.Expressions.Operator
 
         protected override float CalculateWithNumberOnly(IReadOnlyList<float> parameters)
         {
-            return parameters[0] - parameters[1];
+            return parameters[1] - parameters[0];
         }
     }
 }

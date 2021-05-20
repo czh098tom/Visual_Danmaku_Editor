@@ -13,8 +13,8 @@ namespace Latticework.Expressions.Operator
 
         public override void Calculate(IReadOnlyList<float> parameters, IReadOnlyList<string> identifiers)
         {
-            result.Push(parameters[0]);
             result.Push(parameters[1]);
+            result.Push(parameters[0]);
         }
 
         public override IEnumerable<ExpressionCalculatingException> OperandCounter(Stack<float> values, Stack<string> identifiers)

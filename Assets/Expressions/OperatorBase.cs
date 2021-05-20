@@ -50,6 +50,12 @@ namespace Latticework.Expressions
 
         protected readonly Stack<float> result = new Stack<float>();
 
+        /// <summary>
+        /// Calculate the result of this operator.
+        /// </summary>
+        /// <param name="parameters">Inversely ordered list of parameters.</param>
+        /// <param name="identifiers">Inversely ordered list of identifier of parameters if it is not calculated.</param>
+        /// <returns>The stack of the results. Should not be modified by other method.</returns>
         public Stack<float> CalculateWithIdentifiers(IReadOnlyList<float> parameters, IReadOnlyList<string> identifiers)
         {
             result.Clear();
@@ -64,6 +70,12 @@ namespace Latticework.Expressions
 
         public abstract IEnumerable<ExpressionCalculatingException> OperandCounter(Stack<float> values, Stack<string> identifiers);
 
+        /// <summary>
+        /// Calculate the result of this operator.
+        /// </summary>
+        /// <param name="parameters">Inversely ordered list of parameters.</param>
+        /// <param name="identifiers">Inversely ordered list of identifier of parameters if it is not calculated.</param>
+        /// <returns></returns>
         public abstract void Calculate(IReadOnlyList<float> parameters, IReadOnlyList<string> identifiers);
     }
 }

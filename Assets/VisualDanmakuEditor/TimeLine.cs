@@ -13,6 +13,7 @@ namespace VisualDanmakuEditor
         public static TimeLine Instance { get; private set; }
 
         public int CurrentTime { get; private set; }
+        public int MaxTime { get; set; } = 400;
         Slider slider;
         Button button;
 
@@ -28,9 +29,12 @@ namespace VisualDanmakuEditor
 
         private void Update()
         {
+            slider.maxValue = MaxTime;
             if (isAuto)
             {
-                slider.value += Time.deltaTime * 60f;
+                float tEx = Time.deltaTime * 60f;
+                if (slider.value + tEx > slider.maxValue) tEx -= slider.maxValue;
+                slider.value += tEx;
             }
             CurrentTime = Convert.ToInt32(slider.value);
         }

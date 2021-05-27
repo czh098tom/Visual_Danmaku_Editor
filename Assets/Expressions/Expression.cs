@@ -10,10 +10,12 @@ namespace Latticework.Expressions
 {
     public class Expression
     {
+        readonly string original;
         readonly LinkedList<string> reversedPolandExpr = new LinkedList<string>();
 
         public Expression(string expression)
         {
+            original = expression;
             reversedPolandExpr = ExpressionResolver.Default.GetReversedPolandExpression(expression);
         }
 
@@ -75,6 +77,11 @@ namespace Latticework.Expressions
         }
 
         public override string ToString()
+        {
+            return original;
+        }
+
+        public string ToReversedPolandExprString()
         {
             string str = "";
             foreach (string s in reversedPolandExpr)

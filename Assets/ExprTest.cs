@@ -22,7 +22,7 @@ public class ExprTest : MonoBehaviour
     {
         LuaSTGFunctionRegistry.Register();
         Expression expr = new Expression(this.expr);
-        Debug.Log(expr);
+        Debug.Log(expr.ToReversedPolandExprString());
         Debug.Log(expr.Calculate(GetOrDefault));
     }
 

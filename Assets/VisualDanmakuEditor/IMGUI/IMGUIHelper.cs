@@ -26,13 +26,13 @@ namespace VisualDanmakuEditor.IMGUI
             return GUI.TextField(new Rect(position.x + currLabelWidth, position.y, position.width - currLabelWidth, position.height), text);
         }
 
-        public static int TryConvertInt(string str)
+        public static int TryConvertInt(string str, int @default = default)
         {
             if (int.TryParse(str, out int v))
             {
                 return v;
             }
-            return 0;
+            return @default;
         }
     }
 }

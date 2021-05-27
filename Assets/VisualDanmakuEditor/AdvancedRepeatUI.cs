@@ -7,6 +7,8 @@ using UnityEngine;
 
 using VisualDanmakuEditor.IMGUI;
 using VisualDanmakuEditor.Models;
+using VisualDanmakuEditor.Models.AdvancedRepeat;
+using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
 
 using static VisualDanmakuEditor.IMGUI.IMGUIHelper;
 
@@ -19,22 +21,33 @@ namespace VisualDanmakuEditor
 
         private BulletObjectPool objectPool;
 
-        private Rect editWindowSize = new Rect(100, 0, windowWidth, elementHeight * (elementCount + 3));
+        private Rect editWindowSize = new Rect(0, 20, windowWidth, elementHeight * (elementCount + 3));
         private Vector2 scrollPosition = Vector2.zero;
 
         float height;
 
         bool isDirty = true;
 
-        readonly TaskModel task = new TaskModel();
+        public TaskModel Task { get; } = new TaskModel();
 
         private AdvancedRepeatUIBuilder builder;
 
         private void Awake()
         {
             LuaSTGFunctionRegistry.Register();
-            builder = new AdvancedRepeatUIBuilder(task);
+            builder = new AdvancedRepeatUIBuilder(Task);
             objectPool = FindObjectOfType<BulletObjectPool>();
+        }
+
+        private void Start()
+        {
+            AdvancedRepeatModel advr = new AdvancedRepeatModel
+            {
+                Times = 10
+            };
+            advr.AddFirst(new LinearVariable() { VariableName = "ir", Begin = "0", End = "360", IsPrecisely = false });
+            Task.AddFirst(advr);
+            Task.RotationExpression = "ir";
         }
 
         private void Update()
@@ -66,12 +79,12 @@ namespace VisualDanmakuEditor
             {
                 objectPool.DeactivateAll();
                 int i = 0;
-                foreach (PredictableBulletModel model in task.GetPredictableBulletModels())
+                foreach (PredictableBulletModel model in Task.GetPredictableBulletModels())
                 {
                     PredictedBullet pred = objectPool.AllocateObject().PredictedBullet;
                     pred.BulletModel = model;
                     i++;
-                    if (i > 4000) throw new Exception("4000+");
+                    if (i > 10000) throw new Exception("10000+");
                 }
             }
 #if !UNITY_EDITOR

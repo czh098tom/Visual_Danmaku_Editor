@@ -23,12 +23,24 @@ namespace VisualDanmakuEditor.IMGUI
         float currIndention = 10;
         float currWidth = windowWidth - 20;
 
+        private Rect subWindowPosition;
+
+        private Vector2 mainScrollPosition = Vector2.zero;
+        private Vector2 subScrollPosition = Vector2.zero;
+
+        private float currentOffsetWhenClicking;
+
+        private bool subStyleWindowShown = false;
+        private bool subColorWindowShown = false;
+
+        public bool IsDirty { get; set; } = true;
+
         public AdvancedRepeatUIBuilder(TaskModel task)
         {
             this.task = task;
         }
 
-        public float PredictHeight()
+        public void PredictHeight()
         {
             float nElements = 0;
             foreach (AdvancedRepeatModel rep in task)
@@ -39,10 +51,21 @@ namespace VisualDanmakuEditor.IMGUI
             //window header, elemCount, button to add adv repeat
             nElements += 2 + elementCount;
             height = nElements * elementHeight;
-            return height;
         }
 
-        public bool BuildUI(bool isDirty)
+        public void ManageModalWindows()
+        {
+            if (subStyleWindowShown)
+            {
+                subWindowPosition = GUI.ModalWindow(bulletStyleWindowID, subWindowPosition, OnBulletStyleWindow, "Select Bullet Style");
+            }
+            if (subColorWindowShown)
+            {
+                subWindowPosition = GUI.ModalWindow(bulletColorWindowID, subWindowPosition, OnBulletColorWindow, "Select Bullet Color");
+            }
+        }
+
+        public void BuildUI(Rect parentWindow)
         {
             currOffset = 0;
             currIndention = 10;
@@ -51,6 +74,8 @@ namespace VisualDanmakuEditor.IMGUI
             HashSet<AdvancedRepeatModel> repToBeDestroyed = new HashSet<AdvancedRepeatModel>();
             Dictionary<VariableModelBase, AdvancedRepeatModel> varToBeDestroyed = new Dictionary<VariableModelBase, AdvancedRepeatModel>();
 
+            mainScrollPosition = GUI.BeginScrollView(new Rect(0, elementHeight, windowWidth, windowHeight), mainScrollPosition,
+                new Rect(0, 0, windowWidth, height));
             foreach (AdvancedRepeatModel rep in task)
             {
                 BuildLabelledItem("Times", GUI.TextField, (v) => rep.Times = TryConvertInt(v), () => rep.Times.ToString()
@@ -97,6 +122,21 @@ namespace VisualDanmakuEditor.IMGUI
             BuildLabelledItem("Rotation", GUI.TextField, (v) => task.RotationExpression = v, () => task.RotationExpression);
             BuildLabelledItem("Velocity", GUI.TextField, (v) => task.VelocityExpression = v, () => task.VelocityExpression);
             BuildLabelledItem("Interval", GUI.TextField, (v) => task.Interval = TryConvertInt(v), () => task.Interval.ToString());
+            BuildLabelledItem("Interval2", GUI.TextField, (v) => task.Interval2 = TryConvertInt(v), () => task.Interval2.ToString());
+
+            if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), task.Style))
+            {
+                subStyleWindowShown = true;
+                PredictPositionForModalWindow(parentWindow);
+                currentOffsetWhenClicking = currOffset;
+            }
+            MakeOffset();
+            if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), task.Color))
+            {
+                subColorWindowShown = true;
+                PredictPositionForModalWindow(parentWindow);
+                currentOffsetWhenClicking = currOffset;
+            }
 
             GUI.EndScrollView();
 
@@ -112,7 +152,51 @@ namespace VisualDanmakuEditor.IMGUI
                 task.Remove(rep);
             }
 
-            return isDirty || GUI.changed;
+            IsDirty = IsDirty || GUI.changed;
+        }
+
+        private void OnBulletStyleWindow(int id)
+        {
+            string[] styleNames = BulletStyleRegistration.Instance.styleNames;
+            float height = ((styleNames.Length + 3) / 4) * windowWidth / 4;
+            Texture[] stylePic = new Texture[styleNames.Length];
+            for (int i = 0; i < stylePic.Length; i++)
+            {
+                stylePic[i] = BulletStyleRegistration.Instance.GetCachedTexture(styleNames[i], task.Color);
+            }
+
+            if (GUI.Button(new Rect(0, elementHeight, windowWidth, elementHeight), "Confirm")) subStyleWindowShown = false;
+            subScrollPosition = GUI.BeginScrollView(new Rect(0, 2 * elementHeight, windowWidth, windowWidth), subScrollPosition
+                , new Rect(0, 0, windowWidth, height));
+            task.Style = BulletStyleRegistration.Instance.GetStyleName(GUI.SelectionGrid(new Rect(0, 0, windowWidth, height)
+                , BulletStyleRegistration.Instance.GetStyleIdOfName(task.Style), stylePic, 4));
+            GUI.EndScrollView();
+
+            GUI.DragWindow(Screen.safeArea);
+
+            IsDirty = IsDirty || GUI.changed;
+        }
+
+        private void OnBulletColorWindow(int id)
+        {
+            string[] colorNames = BulletStyleRegistration.Instance.colorNames;
+            float height = ((colorNames.Length + 3) / 4) * windowWidth / 4;
+            Texture[] colorPic = new Texture[colorNames.Length];
+            for (int i = 0; i < colorPic.Length; i++)
+            {
+                colorPic[i] = BulletStyleRegistration.Instance.GetCachedTexture(task.Style, colorNames[i]);
+            }
+
+            if (GUI.Button(new Rect(0, elementHeight, windowWidth, elementHeight), "Confirm")) subColorWindowShown = false;
+            subScrollPosition = GUI.BeginScrollView(new Rect(0, 2 * elementHeight, windowWidth, windowWidth), subScrollPosition
+                , new Rect(0, 0, windowWidth, height));
+            task.Color = BulletStyleRegistration.Instance.GetColorName(GUI.SelectionGrid(new Rect(0, 0, windowWidth, height)
+                , BulletStyleRegistration.Instance.GetColorIdOfName(task.Color), colorPic, 4));
+            GUI.EndScrollView();
+
+            GUI.DragWindow(Screen.safeArea);
+
+            IsDirty = IsDirty || GUI.changed;
         }
 
         private void BuildLabelledItem<TAccepts>(string label, Func<Rect, TAccepts, TAccepts> imgui
@@ -121,6 +205,22 @@ namespace VisualDanmakuEditor.IMGUI
             GUI.Label(new Rect(currIndention, currOffset, labelWidth, elementHeight), label);
             setter(imgui(new Rect(currIndention + labelWidth, currOffset, currWidth - labelWidth - spacing, elementHeight), getter()));
             if (finished) MakeOffset();
+        }
+
+        private void PredictPositionForModalWindow(Rect parentWindow)
+        {
+            if (parentWindow.xMax < Screen.safeArea.xMax)
+            {
+                subWindowPosition = new Rect(parentWindow.x + parentWindow.width
+                    , parentWindow.y + currentOffsetWhenClicking - mainScrollPosition.y
+                    , windowWidth, windowWidth + 2 * elementHeight);
+            }
+            else
+            {
+                subWindowPosition = new Rect(parentWindow.x - windowWidth + 2 * elementHeight
+                    , parentWindow.y + currentOffsetWhenClicking - mainScrollPosition.y
+                    , windowWidth, windowWidth + 2 * elementHeight);
+            }
         }
 
         private void MakeOffset()

@@ -44,10 +44,15 @@ namespace VisualDanmakuEditor.Porting
                     level--;
                 }
                 sw.WriteLine($"{level},{taskm[1]}");
+                level = offset + 3;
+                if (tasks[i].Count > 1)
+                {
+                    sw.WriteLine($"{level},{taskm[2]}");
+                }
                 level = offset + 2;
                 if (tasks[i].Count > 0)
                 {
-                    sw.WriteLine($"{level},{taskm[2]}");
+                    sw.WriteLine($"{level},{taskm[3]}");
                 }
             }
             sw.WriteLine(tail);

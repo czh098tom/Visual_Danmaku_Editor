@@ -12,13 +12,9 @@ namespace VisualDanmakuEditor.Models
 {
     internal class TaskIntepreter
     {
-        internal LinkedListNode<AdvancedRepeatModel> Root { get; set; }
-        internal string VelocityExpression { get; set; }
-        internal string RotationExpression { get; set; }
-        internal string XExpression { get; set; }
-        internal string YExpression { get; set; }
+        private readonly TaskModel task;
 
-        internal int Interval { get; set; }
+        private LinkedListNode<AdvancedRepeatModel> Root { get; set; }
 
         private LinkedList<PredictableBulletModel> predictableBulletModels;
         private Dictionary<string, float> variables;
@@ -30,24 +26,21 @@ namespace VisualDanmakuEditor.Models
 
         int currTimeDelay = 0;
 
-        private float Indexer(string s)
+        internal TaskIntepreter(TaskModel task)
         {
-            if (variables.ContainsKey(s))
-            {
-                return variables[s];
-            }
-            return 0;
+            this.task = task;
+            Root = task.First;
         }
 
-        internal IEnumerable<PredictableBulletModel> GetPredictableBulletModels()
+        internal IEnumerable<PredictableBulletModel> GetPredictableBulletModels(int maxTime = int.MaxValue)
         {
             predictableBulletModels = new LinkedList<PredictableBulletModel>();
             variables = new Dictionary<string, float>();
 
-            vexp = new Expression(VelocityExpression);
-            rexp = new Expression(RotationExpression);
-            xexp = new Expression(XExpression);
-            yexp = new Expression(YExpression);
+            vexp = new Expression(task.VelocityExpression);
+            rexp = new Expression(task.RotationExpression);
+            xexp = new Expression(task.XExpression);
+            yexp = new Expression(task.YExpression);
 
             currTimeDelay = 0;
 
@@ -86,7 +79,9 @@ namespace VisualDanmakuEditor.Models
                         currIterTimes.Pop();
                         currRepeat.Pop();
                     }
-                    if (currRepeat.Count == 1) currTimeDelay += Interval;
+                    if (currRepeat.Count == 2) currTimeDelay += task.Interval2;
+                    if (currRepeat.Count == 1) currTimeDelay += task.Interval;
+                    if (currTimeDelay > maxTime) break;
                 }
             }
             else
@@ -94,6 +89,15 @@ namespace VisualDanmakuEditor.Models
                 GenerateBulletModel();
             }
             return predictableBulletModels;
+        }
+
+        private float Indexer(string s)
+        {
+            if (variables.ContainsKey(s))
+            {
+                return variables[s];
+            }
+            return 0;
         }
 
         private void GenerateBulletModel()
@@ -104,6 +108,8 @@ namespace VisualDanmakuEditor.Models
             float vy = Convert.ToSingle(v * Math.Sin(r * Math.PI / 180f));
             predictableBulletModels.AddLast(new PredictableBulletModel()
             {
+                Style = task.Style,
+                Color = task.Color,
                 LifeTimeBegin = currTimeDelay,
                 LifeTimeEnd = PredictableBulletModel.infinite,
                 InitX = xexp.Calculate(Indexer),

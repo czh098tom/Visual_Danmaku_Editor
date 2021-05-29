@@ -22,11 +22,6 @@ namespace VisualDanmakuEditor
         private BulletObjectPool objectPool;
 
         private Rect editWindowSize = new Rect(0, 20, windowWidth, elementHeight * (elementCount + 3));
-        private Vector2 scrollPosition = Vector2.zero;
-
-        float height;
-
-        bool isDirty = true;
 
         public TaskModel Task { get; } = new TaskModel();
 
@@ -52,25 +47,24 @@ namespace VisualDanmakuEditor
 
         private void Update()
         {
-            if (isDirty)
+            if (builder.IsDirty)
             {
                 Calculate();
-                isDirty = false;
+                builder.IsDirty = false;
             }
         }
 
         private void OnGUI()
         {
-            height = builder.PredictHeight();
-            editWindowSize = GUI.Window(0, new Rect(editWindowSize.x, editWindowSize.y, windowWidth, windowHeight)
+            builder.PredictHeight();
+            editWindowSize = GUI.Window(advancedRepeatWindowID, new Rect(editWindowSize.x, editWindowSize.y, windowWidth, windowHeight)
                 , OnMainWindow, "Advanced Repeat Group");
+            builder.ManageModalWindows();
         }
 
         private void OnMainWindow(int id)
         {
-            scrollPosition = GUI.BeginScrollView(new Rect(0, elementHeight, windowWidth, editWindowSize.height), scrollPosition,
-                new Rect(0, 0, windowWidth, height));
-            isDirty = builder.BuildUI(isDirty);
+            builder.BuildUI(editWindowSize);
         }
 
         private void Calculate()

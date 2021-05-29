@@ -37,6 +37,7 @@ namespace VisualDanmakuEditor
                 if (prediction.ContainsInvalidParameters()) return;
                 transform.localPosition = new Vector3(prediction.X, prediction.Y);
                 transform.rotation = Quaternion.Euler(0, 0, prediction.Rotation);
+                spriteRenderer.sprite = BulletStyleRegistration.Instance.GetCachedSprite(prediction.Style, prediction.Color);
             }
             else
             {

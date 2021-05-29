@@ -9,12 +9,16 @@ namespace VisualDanmakuEditor.IMGUI
 {
     public class IMGUIHelper
     {
+        public const int advancedRepeatWindowID = 0;
+        public const int bulletColorWindowID = 1;
+        public const int bulletStyleWindowID = 2;
+
         public const float windowWidth = 400f;
         public const float windowHeight = 400f;
         public const float elementHeight = 20f;
         public const float levelIndention = 20f;
 
-        public const int elementCount = 5;
+        public const int elementCount = 8;
 
         public const float labelWidth = 50f;
         public const float shortLabelWidth = 20f;

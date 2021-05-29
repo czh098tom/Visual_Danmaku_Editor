@@ -18,18 +18,14 @@ namespace VisualDanmakuEditor.Models
         public string YExpression { get; set; } = "0";
 
         public int Interval { get; set; }
+        public int Interval2 { get; set; }
+
+        public string Style { get; set; } = "ball_mid";
+        public string Color { get; set; } = "COLOR_RED";
 
         public IEnumerable<PredictableBulletModel> GetPredictableBulletModels()
         {
-            return new TaskIntepreter()
-            {
-                Root = First,
-                VelocityExpression = VelocityExpression,
-                RotationExpression = RotationExpression,
-                XExpression = XExpression,
-                YExpression = YExpression,
-                Interval = Interval
-            }.GetPredictableBulletModels();
+            return new TaskIntepreter(this).GetPredictableBulletModels();
         }
     }
 }

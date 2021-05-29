@@ -36,16 +36,24 @@ namespace VisualDanmakuEditor.Porting
 
         public static void EstablishMapping()
         {
-            StreamReader sr = new StreamReader(Path.Combine(Application.streamingAssetsPath, "exportingMapping.json"));
-            var arr = JsonConvert.DeserializeObject<ExportingClassMapper[]>(sr.ReadToEnd(), settings);
-            mapperCache = new Dictionary<Type, List<ExportingClassMapper>>();
-            for (int i = 0; i < arr.Length; i++)
+            StreamReader sr = null;
+            try
             {
-                if (!mapperCache.ContainsKey(arr[i].TargetType))
+                sr = new StreamReader(Path.Combine(Application.streamingAssetsPath, "exportingMapping.json"));
+                var arr = JsonConvert.DeserializeObject<ExportingClassMapper[]>(sr.ReadToEnd(), settings);
+                mapperCache = new Dictionary<Type, List<ExportingClassMapper>>();
+                for (int i = 0; i < arr.Length; i++)
                 {
-                    mapperCache.Add(arr[i].TargetType, new List<ExportingClassMapper>(1));
+                    if (!mapperCache.ContainsKey(arr[i].TargetType))
+                    {
+                        mapperCache.Add(arr[i].TargetType, new List<ExportingClassMapper>(1));
+                    }
+                    mapperCache[arr[i].TargetType].Add(arr[i]);
                 }
-                mapperCache[arr[i].TargetType].Add(arr[i]);
+            }
+            finally
+            {
+                sr?.Close();
             }
         }
 

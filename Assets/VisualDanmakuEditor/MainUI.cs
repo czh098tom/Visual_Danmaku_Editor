@@ -37,11 +37,19 @@ namespace VisualDanmakuEditor
         private void Export()
         {
             string fp = Path.Combine(Application.persistentDataPath, "_generated.lstges");
-            FileStream fs = new FileStream(fp, FileMode.Truncate, FileAccess.Write);
-            StreamWriter sw = new StreamWriter(fs);
-            patternExporter.WriteSharpFile(FindObjectsOfType<AdvancedRepeatUI>().Select((a) => a.Task).ToArray(), 6, sw);
-            sw.Close();
-            fs.Close();
+            FileStream fs = null;
+            StreamWriter sw = null;
+            try
+            {
+                fs = new FileStream(fp, FileMode.Create, FileAccess.Write);
+                sw = new StreamWriter(fs);
+                patternExporter.WriteSharpFile(FindObjectsOfType<AdvancedRepeatUI>().Select((a) => a.Task).ToArray(), 6, sw);
+            }
+            finally
+            {
+                sw?.Close();
+                fs?.Close();
+            }
             Process.Start(new ProcessStartInfo()
             {
                 FileName = Application.persistentDataPath,

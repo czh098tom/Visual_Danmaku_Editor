@@ -18,6 +18,9 @@ namespace VisualDanmakuEditor.Models
             LifeTimeEnd = -infinite
         };
 
+        public string Style { get; set; }
+        public string Color { get; set; }
+
         public int LifeTimeBegin { get; set; }
         public int LifeTimeEnd { get; set; }
 
@@ -35,6 +38,8 @@ namespace VisualDanmakuEditor.Models
 
             BulletPrediction prediction = null;
             if (prediction == null) prediction = new BulletPrediction();
+            prediction.Style = Style;
+            prediction.Color = Color;
             prediction.X = InitX + VX * (time - LifeTimeBegin);
             prediction.Y = InitY + VY * (time - LifeTimeBegin);
             prediction.Rotation = Rotation;

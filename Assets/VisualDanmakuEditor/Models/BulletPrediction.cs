@@ -8,6 +8,9 @@ namespace VisualDanmakuEditor.Models
 {
     public class BulletPrediction
     {
+        public string Style { get; set; }
+        public string Color { get; set; }
+
         public float X { get; set; }
         public float Y { get; set; }
 

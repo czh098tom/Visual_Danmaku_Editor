@@ -78,7 +78,7 @@ namespace VisualDanmakuEditor.IMGUI
                 new Rect(0, 0, windowWidth, height));
             foreach (AdvancedRepeatModel rep in task)
             {
-                BuildLabelledItem("Times", GUI.TextField, (v) => rep.Times = TryConvertInt(v), () => rep.Times.ToString()
+                BuildLabelledItem("Times", GUI.TextField, (v) => rep.Times = v, () => rep.Times
                     , shortLabelWidth, false);
                 if (GUI.Button(new Rect(currIndention + currWidth - shortLabelWidth, currOffset, shortLabelWidth, elementHeight), "-"))
                 {

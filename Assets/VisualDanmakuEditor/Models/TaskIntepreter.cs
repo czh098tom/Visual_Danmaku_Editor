@@ -46,11 +46,13 @@ namespace VisualDanmakuEditor.Models
 
             LinkedListNode<VariableModelBase> currVariable = null;
             Stack<int> currIterTimes = new Stack<int>();
+            Stack<int> currRepeatTimes = new Stack<int>();
             Stack<LinkedListNode<AdvancedRepeatModel>> currRepeat = new Stack<LinkedListNode<AdvancedRepeatModel>>();
 
             if (Root != null)
             {
                 currRepeat.Push(Root);
+                currRepeatTimes.Push(Convert.ToInt32(Math.Floor(new Expression(Root.Value.Times).Calculate(Indexer))));
                 currIterTimes.Push(-1);
                 while (currIterTimes.Count > 0)
                 {
@@ -59,10 +61,10 @@ namespace VisualDanmakuEditor.Models
                     while (currVariable != null)
                     {
                         variables[currVariable.Value.VariableName] =
-                            currVariable.Value.GetVariableValue(currIterTimes.Peek(), currRepeat.Peek().Value.Times, Indexer);
+                            currVariable.Value.GetVariableValue(currIterTimes.Peek(), currRepeatTimes.Peek(), Indexer);
                         currVariable = currVariable.Next;
                     }
-                    if (currIterTimes.Peek() < currRepeat.Peek().Value.Times)
+                    if (currIterTimes.Peek() < currRepeatTimes.Peek())
                     {
                         if (currRepeat.Peek().Next == null)
                         {
@@ -70,6 +72,7 @@ namespace VisualDanmakuEditor.Models
                         }
                         else
                         {
+                            currRepeatTimes.Push(Convert.ToInt32(Math.Floor(new Expression(currRepeat.Peek().Next.Value.Times).Calculate(Indexer))));
                             currRepeat.Push(currRepeat.Peek().Next);
                             currIterTimes.Push(-1);
                         }
@@ -78,6 +81,7 @@ namespace VisualDanmakuEditor.Models
                     {
                         currIterTimes.Pop();
                         currRepeat.Pop();
+                        currRepeatTimes.Pop();
                     }
                     if (currRepeat.Count == 2) currTimeDelay += task.Interval2;
                     if (currRepeat.Count == 1) currTimeDelay += task.Interval;

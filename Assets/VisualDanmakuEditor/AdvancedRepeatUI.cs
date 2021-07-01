@@ -38,7 +38,7 @@ namespace VisualDanmakuEditor
         {
             AdvancedRepeatModel advr = new AdvancedRepeatModel
             {
-                Times = 10
+                Times = "10"
             };
             advr.AddFirst(new LinearVariable() { VariableName = "ir", Begin = "0", End = "360", IsPrecisely = false });
             Task.AddFirst(advr);

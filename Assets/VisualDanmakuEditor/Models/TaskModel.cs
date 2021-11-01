@@ -16,8 +16,11 @@ namespace VisualDanmakuEditor.Models
 
         public string Interval
         {
-            get => First.Value.Interval;
-            set => First.Value.Interval = value;
+            get => First?.Value.Interval ?? "0";
+            set
+            {
+                if (First != null) First.Value.Interval = value;
+            }
         }
         public string Interval2
         {

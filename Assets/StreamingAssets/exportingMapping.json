@@ -6,18 +6,6 @@
 		"Format": "{{\"$type\":\".Task.TaskNode, \",\"Attributes\":[]}}"
 	},
 	{
-		"TargetType": "VisualDanmakuEditor.Models.TaskModel",
-		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-		"FieldNames": ["Interval2"],
-		"Format": "{{\"$type\":\".Task.TaskWait, \",\"Attributes\":[{{\"attrCap\":\"Time\",\"attrInput\":\"{0}\",\"EditWindow\":\"yield\"}}],\"AttributeCount\":1}}"
-	},
-	{
-		"TargetType": "VisualDanmakuEditor.Models.TaskModel",
-		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-		"FieldNames": ["Interval"],
-		"Format": "{{\"$type\":\".Task.TaskWait, \",\"Attributes\":[{{\"attrCap\":\"Time\",\"attrInput\":\"{0}\",\"EditWindow\":\"yield\"}}],\"AttributeCount\":1}}"
-	},
-	{
 		"TargetType": "VisualDanmakuEditor.Models.BulletModelBase",
 		"TerminationType": "VisualDanmakuEditor.Models.BulletModelBase",
 		"FieldNames": ["VelocityExpression", "RotationExpression", "XExpression", "YExpression", "Style", "Color"],
@@ -34,6 +22,12 @@
 		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
 		"FieldNames": [],
 		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.VariableCollection, LuaSTGEditorSharp\",\"Attributes\":[]}}"
+	},
+	{
+		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel",
+		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+		"FieldNames": ["Interval"],
+		"Format": "{{\"$type\":\".Task.TaskWait, \",\"Attributes\":[{{\"attrCap\":\"Time\",\"attrInput\":\"{0}\",\"EditWindow\":\"yield\"}}],\"AttributeCount\":1}}"
 	},
 	{
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.Variables.LinearVariable",

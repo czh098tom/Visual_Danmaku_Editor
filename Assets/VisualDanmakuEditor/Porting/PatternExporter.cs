@@ -31,8 +31,10 @@ namespace VisualDanmakuEditor.Porting
                 string[] bulletm = ExportingClassMapper.BindExportString(tasks[i].BulletModel);
                 sw.WriteLine($"{level},{taskm[0]}");
                 level++;
+                Stack<AdvancedRepeatModel> advrback = new Stack<AdvancedRepeatModel>();
                 foreach(AdvancedRepeatModel advr in tasks[i])
                 {
+                    advrback.Push(advr);
                     string[] advrm = ExportingClassMapper.BindExportString(advr);
                     sw.WriteLine($"{level},{advrm[0]}");
                     level++;
@@ -45,15 +47,15 @@ namespace VisualDanmakuEditor.Porting
                     level--;
                 }
                 sw.WriteLine($"{level},{bulletm[0]}");
-                level = offset + 3;
-                if (tasks[i].Count > 1)
+                while (advrback.Count > 0)
                 {
-                    sw.WriteLine($"{level},{taskm[1]}");
-                }
-                level = offset + 2;
-                if (tasks[i].Count > 0)
-                {
-                    sw.WriteLine($"{level},{taskm[2]}");
+                    AdvancedRepeatModel advr = advrback.Pop();
+                    if (advr.Interval != "0")
+                    {
+                        string[] advrm = ExportingClassMapper.BindExportString(advr);
+                        sw.WriteLine($"{level},{advrm[2]}");
+                    }
+                    level--;
                 }
             }
             sw.WriteLine(tail);

@@ -89,8 +89,12 @@ namespace VisualDanmakuEditor.Models
                         currRepeat.Pop();
                         currRepeatTimes.Pop();
                     }
-                    if (currRepeat.Count == 2) currTimeDelay += Convert.ToInt32(int2exp.Calculate(Indexer));
-                    if (currRepeat.Count == 1) currTimeDelay += Convert.ToInt32(intexp.Calculate(Indexer));
+                    //if (currRepeat.Count == 2) currTimeDelay += Convert.ToInt32(int2exp.Calculate(Indexer));
+                    //if (currRepeat.Count == 1) currTimeDelay += Convert.ToInt32(intexp.Calculate(Indexer));
+                    if (currRepeat.Count > 0)
+                    {
+                        currTimeDelay += Convert.ToInt32(new Expression(currRepeat.Peek().Value.Interval).Calculate(Indexer));
+                    }
                     if (currTimeDelay > maxTime) break;
                 }
             }

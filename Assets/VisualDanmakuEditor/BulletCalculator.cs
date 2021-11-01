@@ -26,6 +26,11 @@ namespace VisualDanmakuEditor
             CreateDefaultModel();
         }
 
+        private void Start()
+        {
+            Calculate();
+        }
+
         private void CreateDefaultModel()
         {
             TaskModel task = new TaskModel();

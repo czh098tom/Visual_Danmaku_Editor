@@ -16,11 +16,14 @@ public class AdvRepeatTest : MonoBehaviour
     {
         TaskModel task = new TaskModel()
         {
-            Interval = 1,
-            XExpression = "0",
-            YExpression = "120",
-            RotationExpression = "0",
-            VelocityExpression = "3",
+            Interval = "1",
+            BulletModel = new BulletModelBase()
+            {
+                XExpression = "0",
+                YExpression = "120",
+                RotationExpression = "0",
+                VelocityExpression = "3"
+            }
         };
 
         foreach (PredictableBulletModel model in task.GetPredictableBulletModels())

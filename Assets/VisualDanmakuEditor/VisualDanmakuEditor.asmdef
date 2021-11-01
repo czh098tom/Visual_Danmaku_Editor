@@ -1,7 +1,9 @@
 {
     "name": "VisualDanmakuEditor",
+    "rootNamespace": "",
     "references": [
         "GUID:4103c4ded1fb9724fa0bdfa7de2aa9e2",
+        "GUID:162c33fb868470343ba343948e1c6159",
         "GUID:d8df868bb3b10884785dcd1c28434a91",
         "GUID:1a6f47f34d468214890e0442d8daa207"
     ],

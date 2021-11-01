@@ -117,21 +117,21 @@ namespace VisualDanmakuEditor.IMGUI
             MakeOffset();
 
             ResetIndention();
-            BuildLabelledItem("X", GUI.TextField, (v) => task.XExpression = v, () => task.XExpression);
-            BuildLabelledItem("Y", GUI.TextField, (v) => task.YExpression = v, () => task.YExpression);
-            BuildLabelledItem("Rotation", GUI.TextField, (v) => task.RotationExpression = v, () => task.RotationExpression);
-            BuildLabelledItem("Velocity", GUI.TextField, (v) => task.VelocityExpression = v, () => task.VelocityExpression);
-            BuildLabelledItem("Interval", GUI.TextField, (v) => task.Interval = TryConvertInt(v), () => task.Interval.ToString());
-            BuildLabelledItem("Interval2", GUI.TextField, (v) => task.Interval2 = TryConvertInt(v), () => task.Interval2.ToString());
+            BuildLabelledItem("X", GUI.TextField, (v) => task.BulletModel.XExpression = v, () => task.BulletModel.XExpression);
+            BuildLabelledItem("Y", GUI.TextField, (v) => task.BulletModel.YExpression = v, () => task.BulletModel.YExpression);
+            BuildLabelledItem("Rotation", GUI.TextField, (v) => task.BulletModel.RotationExpression = v, () => task.BulletModel.RotationExpression);
+            BuildLabelledItem("Velocity", GUI.TextField, (v) => task.BulletModel.VelocityExpression = v, () => task.BulletModel.VelocityExpression);
+            BuildLabelledItem("Interval", GUI.TextField, (v) => task.Interval = v, () => task.Interval);
+            BuildLabelledItem("Interval2", GUI.TextField, (v) => task.Interval2 = v, () => task.Interval2);
 
-            if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), task.Style))
+            if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), task.BulletModel.Style))
             {
                 subStyleWindowShown = true;
                 PredictPositionForModalWindow(parentWindow);
                 currentOffsetWhenClicking = currOffset;
             }
             MakeOffset();
-            if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), task.Color))
+            if (GUI.Button(new Rect(currIndention, currOffset, currWidth, elementHeight), task.BulletModel.Color))
             {
                 subColorWindowShown = true;
                 PredictPositionForModalWindow(parentWindow);
@@ -162,14 +162,14 @@ namespace VisualDanmakuEditor.IMGUI
             Texture[] stylePic = new Texture[styleNames.Length];
             for (int i = 0; i < stylePic.Length; i++)
             {
-                stylePic[i] = BulletStyleRegistration.Instance.GetCachedTexture(styleNames[i], task.Color);
+                stylePic[i] = BulletStyleRegistration.Instance.GetCachedTexture(styleNames[i], task.BulletModel.Color);
             }
 
             if (GUI.Button(new Rect(0, elementHeight, windowWidth, elementHeight), "Confirm")) subStyleWindowShown = false;
             subScrollPosition = GUI.BeginScrollView(new Rect(0, 2 * elementHeight, windowWidth, windowWidth), subScrollPosition
                 , new Rect(0, 0, windowWidth, height));
-            task.Style = BulletStyleRegistration.Instance.GetStyleName(GUI.SelectionGrid(new Rect(0, 0, windowWidth, height)
-                , BulletStyleRegistration.Instance.GetStyleIdOfName(task.Style), stylePic, 4));
+            task.BulletModel.Style = BulletStyleRegistration.Instance.GetStyleName(GUI.SelectionGrid(new Rect(0, 0, windowWidth, height)
+                , BulletStyleRegistration.Instance.GetStyleIdOfName(task.BulletModel.Style), stylePic, 4));
             GUI.EndScrollView();
 
             GUI.DragWindow(Screen.safeArea);
@@ -184,14 +184,14 @@ namespace VisualDanmakuEditor.IMGUI
             Texture[] colorPic = new Texture[colorNames.Length];
             for (int i = 0; i < colorPic.Length; i++)
             {
-                colorPic[i] = BulletStyleRegistration.Instance.GetCachedTexture(task.Style, colorNames[i]);
+                colorPic[i] = BulletStyleRegistration.Instance.GetCachedTexture(task.BulletModel.Style, colorNames[i]);
             }
 
             if (GUI.Button(new Rect(0, elementHeight, windowWidth, elementHeight), "Confirm")) subColorWindowShown = false;
             subScrollPosition = GUI.BeginScrollView(new Rect(0, 2 * elementHeight, windowWidth, windowWidth), subScrollPosition
                 , new Rect(0, 0, windowWidth, height));
-            task.Color = BulletStyleRegistration.Instance.GetColorName(GUI.SelectionGrid(new Rect(0, 0, windowWidth, height)
-                , BulletStyleRegistration.Instance.GetColorIdOfName(task.Color), colorPic, 4));
+            task.BulletModel.Color = BulletStyleRegistration.Instance.GetColorName(GUI.SelectionGrid(new Rect(0, 0, windowWidth, height)
+                , BulletStyleRegistration.Instance.GetColorIdOfName(task.BulletModel.Color), colorPic, 4));
             GUI.EndScrollView();
 
             GUI.DragWindow(Screen.safeArea);

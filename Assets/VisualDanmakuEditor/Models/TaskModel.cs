@@ -12,16 +12,21 @@ namespace VisualDanmakuEditor.Models
 {
     public class TaskModel : LinkedList<AdvancedRepeatModel>
     {
-        public string VelocityExpression { get; set; } = "3";
-        public string RotationExpression { get; set; } = "0";
-        public string XExpression { get; set; } = "0";
-        public string YExpression { get; set; } = "0";
+        public BulletModelBase BulletModel { get; set; } = new BulletModelBase();
 
-        public int Interval { get; set; }
-        public int Interval2 { get; set; }
-
-        public string Style { get; set; } = "ball_mid";
-        public string Color { get; set; } = "COLOR_RED";
+        public string Interval 
+        {
+            get => First.Value.Interval;
+            set => First.Value.Interval = value;
+        }
+        public string Interval2
+        {
+            get => First.Next?.Value.Interval ?? "0";
+            set
+            {
+                if (First.Next != null) First.Next.Value.Interval = value;
+            }
+        }
 
         public IEnumerable<PredictableBulletModel> GetPredictableBulletModels()
         {

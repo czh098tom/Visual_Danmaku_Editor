@@ -24,6 +24,9 @@ namespace VisualDanmakuEditor.Models
         private Expression xexp;
         private Expression yexp;
 
+        private Expression intexp;
+        private Expression int2exp;
+
         int currTimeDelay = 0;
 
         internal TaskIntepreter(TaskModel task)
@@ -37,10 +40,13 @@ namespace VisualDanmakuEditor.Models
             predictableBulletModels = new LinkedList<PredictableBulletModel>();
             variables = new Dictionary<string, float>();
 
-            vexp = new Expression(task.VelocityExpression);
-            rexp = new Expression(task.RotationExpression);
-            xexp = new Expression(task.XExpression);
-            yexp = new Expression(task.YExpression);
+            vexp = new Expression(task.BulletModel.VelocityExpression);
+            rexp = new Expression(task.BulletModel.RotationExpression);
+            xexp = new Expression(task.BulletModel.XExpression);
+            yexp = new Expression(task.BulletModel.YExpression);
+
+            intexp = new Expression(task.Interval);
+            int2exp = new Expression(task.Interval2);
 
             currTimeDelay = 0;
 
@@ -83,8 +89,8 @@ namespace VisualDanmakuEditor.Models
                         currRepeat.Pop();
                         currRepeatTimes.Pop();
                     }
-                    if (currRepeat.Count == 2) currTimeDelay += task.Interval2;
-                    if (currRepeat.Count == 1) currTimeDelay += task.Interval;
+                    if (currRepeat.Count == 2) currTimeDelay += Convert.ToInt32(int2exp.Calculate(Indexer));
+                    if (currRepeat.Count == 1) currTimeDelay += Convert.ToInt32(intexp.Calculate(Indexer));
                     if (currTimeDelay > maxTime) break;
                 }
             }
@@ -112,8 +118,8 @@ namespace VisualDanmakuEditor.Models
             float vy = Convert.ToSingle(v * Math.Sin(r * Math.PI / 180f));
             predictableBulletModels.AddLast(new PredictableBulletModel()
             {
-                Style = task.Style,
-                Color = task.Color,
+                Style = task.BulletModel.Style,
+                Color = task.BulletModel.Color,
                 LifeTimeBegin = currTimeDelay,
                 LifeTimeEnd = PredictableBulletModel.infinite,
                 InitX = xexp.Calculate(Indexer),

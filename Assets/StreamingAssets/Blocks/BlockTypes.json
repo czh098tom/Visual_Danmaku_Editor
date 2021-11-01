@@ -1,0 +1,12 @@
+[
+	{
+		"TypeName": "Generator",
+		"Pins": [
+			{
+				"TypeName": "Generator",
+				"PinPlacing": "Left",
+				"AllowMultiple": false
+			}
+		]
+	}
+]

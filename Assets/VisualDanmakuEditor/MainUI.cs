@@ -43,7 +43,7 @@ namespace VisualDanmakuEditor
             {
                 fs = new FileStream(fp, FileMode.Create, FileAccess.Write);
                 sw = new StreamWriter(fs);
-                patternExporter.WriteSharpFile(FindObjectsOfType<AdvancedRepeatUI>().Select((a) => a.Task).ToArray(), 6, sw);
+                patternExporter.WriteSharpFile(FindObjectsOfType<AdvancedRepeatIMGUI>().Select((a) => a.Task).ToArray(), 6, sw);
             }
             finally
             {

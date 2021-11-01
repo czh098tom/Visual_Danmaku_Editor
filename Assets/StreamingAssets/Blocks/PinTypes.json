@@ -1,0 +1,17 @@
+[
+	{
+		"TypeName": "string",
+		"AllowedTypes": ["string"],
+		"CanBeLiteral": true
+	},
+	{
+		"TypeName": "generator",
+		"AllowedTypes": ["generator"],
+		"CanBeLiteral": false
+	},
+	{
+		"TypeName": "curve",
+		"AllowedTypes": ["curve"],
+		"CanBeLiteral": false
+	},
+]

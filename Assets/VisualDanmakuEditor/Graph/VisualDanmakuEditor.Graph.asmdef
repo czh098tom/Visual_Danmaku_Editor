@@ -1,0 +1,16 @@
+{
+    "name": "VisualDanmakuEditor.Graph",
+    "references": [
+        "GUID:204566a193d97624daa6ecbb0be5f41c",
+        "GUID:4103c4ded1fb9724fa0bdfa7de2aa9e2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

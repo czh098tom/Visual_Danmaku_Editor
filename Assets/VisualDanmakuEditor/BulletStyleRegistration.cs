@@ -41,9 +41,9 @@ namespace VisualDanmakuEditor
         [JsonProperty("ColorNames")]
         public string[] colorNames;
         [JsonProperty("ResourceSpriteMapping")]
-        private Dictionary<string, string[]> resourceSpriteMapping;
+        private Dictionary<string, string[]> resourceSpriteMapping = null;
         [JsonProperty("ResourceSheetMapping")]
-        private Dictionary<string, string> resourceSheeetMapping;
+        private Dictionary<string, string> resourceSheeetMapping = null;
 
         private Dictionary<string, int> styleName2Index;
         private Dictionary<string, int> colorName2Index;
@@ -98,6 +98,8 @@ namespace VisualDanmakuEditor
             }
             return null;
         }
+
+        public Sprite GetCachedSprite(int styleID, int colorID) => GetCachedSprite(GetStyleName(styleID), GetColorName(colorID));
 
         public Sprite GetCachedSprite(string style, string color)
         {

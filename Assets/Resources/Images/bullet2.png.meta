@@ -263,6 +263,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -271,9 +273,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -294,9 +296,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -2016,6 +2021,87 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      bullet2_25: -6996710801112356621
+      bullet2_70: -1207850023058546475
+      bullet2_68: -8605184098519757597
+      bullet2_14: 7029281253810072275
+      bullet2_55: 2231423458344165071
+      bullet2_56: 753257691837054124
+      bullet2_2: -8262992534049838289
+      bullet2_67: 8856734623111258892
+      bullet2_7: 7927362710642610958
+      bullet2_31: -2546332890358182462
+      bullet2_34: -8092068974494578656
+      bullet2_54: 6352754674583013546
+      bullet2_28: 4595310251452637598
+      bullet2_6: 8595619721042719074
+      bullet2_30: 7457502340091364064
+      bullet2_58: -6555535505733113468
+      bullet2_69: 1161541764473831342
+      bullet2_71: -3943154991144791732
+      bullet2_51: 3652563743406327800
+      bullet2_3: -1058965262095070486
+      bullet2_13: -7023093553756289759
+      bullet2_1: -9019073685108289619
+      bullet2_42: -6129453704980067687
+      bullet2_10: 704356613419829062
+      bullet2_11: -8343441421620420378
+      bullet2_12: -8198285578107569284
+      bullet2_37: 3794713819800674167
+      bullet2_26: -8438005650574754552
+      bullet2_27: 2342397503451410999
+      bullet2_64: -5419651600692732038
+      bullet2_16: -5612113628111158907
+      bullet2_15: -1260145449388052696
+      bullet2_24: -1407489061623071127
+      bullet2_41: -5892647234060460472
+      bullet2_73: 3945842381105625427
+      bullet2_59: -6404055739231765552
+      bullet2_76: -2093480156518094111
+      bullet2_5: -6251674262136477697
+      bullet2_61: 84652503685098789
+      bullet2_74: -1550789687343098868
+      bullet2_52: 7557616589604636397
+      bullet2_63: 8866071654844883149
+      bullet2_21: -5880183192926438489
+      bullet2_18: 8197400364637827857
+      bullet2_40: 3561982612728885608
+      bullet2_45: -8313533609145246
+      bullet2_60: -5623970785167853907
+      bullet2_53: 352019052443638744
+      bullet2_35: 5815827417166316046
+      bullet2_43: 4812453066867655845
+      bullet2_17: -753645668912349536
+      bullet2_29: -6411573864500588486
+      bullet2_62: 5672303094748906667
+      bullet2_46: -1853362012626194783
+      bullet2_47: -8545675239254485297
+      bullet2_33: 4176539998171826370
+      bullet2_0: 6261204194188010130
+      bullet2_44: 4868738559084963589
+      bullet2_22: -6443999409333002290
+      bullet2_57: 8702996992041827575
+      bullet2_49: 9199234949254390476
+      bullet2_79: -7724165900729070838
+      bullet2_78: 2698119366875378294
+      bullet2_48: -6543372457619495944
+      bullet2_77: 9016110733484110320
+      bullet2_9: 8926599765724292021
+      bullet2_4: -3798673162199286985
+      bullet2_65: -7872638639993245205
+      bullet2_23: -3688245341854267875
+      bullet2_38: -709446217619072253
+      bullet2_8: 6332667678698053662
+      bullet2_19: 8943085670307943873
+      bullet2_20: 5238388488913087984
+      bullet2_36: 2996957144842109659
+      bullet2_72: -3545989196880880300
+      bullet2_39: 8969579441988883729
+      bullet2_50: -4683541104984300282
+      bullet2_66: 7774756121218672990
+      bullet2_32: 3242554728129945769
+      bullet2_75: 6979833124010499477
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

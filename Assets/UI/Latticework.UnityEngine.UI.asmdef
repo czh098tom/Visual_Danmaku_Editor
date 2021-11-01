@@ -1,0 +1,15 @@
+{
+    "name": "Latticework.UnityEngine.UI",
+    "references": [
+        "GUID:4103c4ded1fb9724fa0bdfa7de2aa9e2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

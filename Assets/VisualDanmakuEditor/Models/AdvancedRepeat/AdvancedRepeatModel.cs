@@ -11,5 +11,6 @@ namespace VisualDanmakuEditor.Models.AdvancedRepeat
     public class AdvancedRepeatModel : LinkedList<VariableModelBase>
     {
         public string Times { get; set; } = "6";
+        public string Interval { get; set; } = "0";
     }
 }

@@ -14,7 +14,7 @@ using static VisualDanmakuEditor.IMGUI.IMGUIHelper;
 
 namespace VisualDanmakuEditor
 {
-    public class AdvancedRepeatUI : MonoBehaviour
+    public class AdvancedRepeatIMGUI : MonoBehaviour
     {
         [SerializeField]
         private GameObject bullet;
@@ -42,7 +42,7 @@ namespace VisualDanmakuEditor
             };
             advr.AddFirst(new LinearVariable() { VariableName = "ir", Begin = "0", End = "360", IsPrecisely = false });
             Task.AddFirst(advr);
-            Task.RotationExpression = "ir";
+            Task.BulletModel.RotationExpression = "ir";
         }
 
         private void Update()

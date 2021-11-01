@@ -87,7 +87,7 @@ namespace VisualDanmakuEditor
             ui.Calculate = Calculate;
             RectTransform rect = ui.GetComponent<RectTransform>();
             rect.SetParent(parent.transform, false);
-            rect.SetSiblingIndex(parent.transform.childCount - 1 - idOffset);
+            rect.SetSiblingIndex(parent.transform.childCount - 1 + idOffset);
             iteratorUIs.AddLast(ui);
             ui.Assign(model);
             ui.Remove.onClick.AddListener(() => { RemoveIterator(ui); Calculate(); });

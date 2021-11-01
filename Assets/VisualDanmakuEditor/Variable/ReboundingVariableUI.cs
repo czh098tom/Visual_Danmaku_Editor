@@ -22,7 +22,7 @@ namespace VisualDanmakuEditor.Variable
         {
             base.Assign(model);
             first.Value = model.First;
-            first.Value = model.Another;
+            another.Value = model.Another;
         }
 
         public override void Start()

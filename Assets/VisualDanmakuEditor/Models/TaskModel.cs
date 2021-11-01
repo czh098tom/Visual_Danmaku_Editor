@@ -14,17 +14,17 @@ namespace VisualDanmakuEditor.Models
     {
         public BulletModelBase BulletModel { get; set; } = new BulletModelBase();
 
-        public string Interval 
+        public string Interval
         {
             get => First.Value.Interval;
             set => First.Value.Interval = value;
         }
         public string Interval2
         {
-            get => First.Next?.Value.Interval ?? "0";
+            get => First?.Next?.Value.Interval ?? "0";
             set
             {
-                if (First.Next != null) First.Next.Value.Interval = value;
+                if (First != null && First.Next != null) First.Next.Value.Interval = value;
             }
         }
 

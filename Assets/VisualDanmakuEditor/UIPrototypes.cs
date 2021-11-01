@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Latticework.UnityEngine.Utilities;
+using VisualDanmakuEditor.Variable;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
 
 namespace VisualDanmakuEditor
@@ -17,25 +18,36 @@ namespace VisualDanmakuEditor
         [Header("Variables")]
         [SerializeField]
         GameObject linearVariableUI;
+        [SerializeField]
+        GameObject reboundingVariableUI;
         [Header("Models")]
         [SerializeField]
         GameObject defaultModelUI;
 
         public GameObject IteratorUI { get => iteratorUI; }
-        public GameObject LinearVariableUI { get => linearVariableUI; }
         public GameObject DefaultModelUI { get => defaultModelUI; }
 
-        public Dictionary<Type, GameObject> modelDict = new Dictionary<Type, GameObject>();
+        public Dictionary<Type, GameObject> model2PrototypeMappping = new Dictionary<Type, GameObject>();
+        public Dictionary<Type, Type> model2BehaviorTypeMappping = new Dictionary<Type, Type>();
 
         protected override void Awake()
         {
             base.Awake();
-            modelDict.Add(typeof(LinearVariable), linearVariableUI);
+            model2PrototypeMappping.Add(typeof(LinearVariable), linearVariableUI);
+            model2PrototypeMappping.Add(typeof(ReboundingVariable), reboundingVariableUI);
+
+            model2BehaviorTypeMappping.Add(typeof(LinearVariable), typeof(LinearVariableUI));
+            model2BehaviorTypeMappping.Add(typeof(ReboundingVariable), typeof(ReboundingVariableUI));
         }
 
-        public GameObject SelectVariableUI(Type t)
+        public GameObject SelectVariableUIObject(Type t)
         {
-            return modelDict[t];
+            return model2PrototypeMappping[t];
+        }
+
+        public Type SelectVariableUIBehavior(Type t)
+        {
+            return model2BehaviorTypeMappping[t];
         }
     }
 }

@@ -57,7 +57,7 @@ namespace VisualDanmakuEditor
 
         private void Start()
         {
-            addIterator.onClick.AddListener(AddNewIterator);
+            addIterator.onClick.AddListener(() => { AddNewIterator(); Calculate(); });
 
             Assign(calculator.Model);
         }
@@ -79,7 +79,6 @@ namespace VisualDanmakuEditor
                 AddIterator(model, iteratorUIs.Last.Value.IteratorContainer);
             }
             Model.AddLast(model);
-            Calculate();
         }
 
         public IteratorUI AddIterator(AdvancedRepeatModel model, VerticalLayoutGroup parent, int idOffset = -1)

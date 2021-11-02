@@ -19,6 +19,8 @@ namespace VisualDanmakuEditor
         [SerializeField]
         GameObject linearVariableUI;
         [SerializeField]
+        GameObject incrementVariableUI;
+        [SerializeField]
         GameObject reboundingVariableUI;
         [Header("Models")]
         [SerializeField]
@@ -34,9 +36,11 @@ namespace VisualDanmakuEditor
         {
             base.Awake();
             model2PrototypeMappping.Add(typeof(LinearVariable), linearVariableUI);
+            model2PrototypeMappping.Add(typeof(IncrementVariable), incrementVariableUI);
             model2PrototypeMappping.Add(typeof(ReboundingVariable), reboundingVariableUI);
 
             model2BehaviorTypeMappping.Add(typeof(LinearVariable), typeof(LinearVariableUI));
+            model2BehaviorTypeMappping.Add(typeof(IncrementVariable), typeof(IncrementVariableUI));
             model2BehaviorTypeMappping.Add(typeof(ReboundingVariable), typeof(ReboundingVariableUI));
         }
 

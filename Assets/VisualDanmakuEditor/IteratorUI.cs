@@ -111,14 +111,13 @@ namespace VisualDanmakuEditor
             Model.Remove(node);
 
             VariableModelBase var = null;
-            if (old is LinearVariable)
+            var = old switch
             {
-                var = new ReboundingVariable();
-            }
-            else
-            {
-                var = new LinearVariable();
-            }
+                LinearVariable => new IncrementVariable(),
+                IncrementVariable => new ReboundingVariable(),
+                ReboundingVariable => new LinearVariable(),
+                _ => new LinearVariable()
+            };
             var.VariableName = name;
 
             if (beforeNode != null)

@@ -36,6 +36,12 @@
 		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.LinearVariable, LuaSTGEditorSharp\",\"Attributes\":[{{\"attrCap\":\"Name\",\"attrInput\":\"{0}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"From\",\"attrInput\":\"{1}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"To\",\"attrInput\":\"{2}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Precisely\",\"attrInput\":\"{3}\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Mode\",\"attrInput\":\"MOVE_NORMAL\",\"EditWindow\":\"interpolation\"}}],\"AttributeCount\":5}}"
 	},
 	{
+		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.Variables.IncrementVariable",
+		"TerminationType": "VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase",
+		"FieldNames": ["VariableName", "Begin", "Increment"],
+		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.IncrementVariable, LuaSTGEditorSharp\",\"Attributes\":[{{\"attrCap\":\"Name\",\"attrInput\":\"{0}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Initial value\",\"attrInput\":\"{1}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Increment\",\"attrInput\":\"{2}\",\"EditWindow\":\"\"}}],\"AttributeCount\":3}}"
+	},
+	{
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.Variables.ReboundingVariable",
 		"TerminationType": "VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase",
 		"FieldNames": ["VariableName", "First", "Another"],

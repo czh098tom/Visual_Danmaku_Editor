@@ -9,6 +9,7 @@ using Latticework.UnityEngine.Utilities;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
+using VisualDanmakuEditor.Models.Bullet;
 
 namespace VisualDanmakuEditor
 {
@@ -22,7 +23,7 @@ namespace VisualDanmakuEditor
         private void Awake()
         {
             LuaSTGFunctionRegistry.Register();
-            objectPool = GetComponent<BulletObjectPool>();
+            objectPool = FindObjectOfType<BulletObjectPool>();
             CreateDefaultModel();
         }
 
@@ -38,9 +39,13 @@ namespace VisualDanmakuEditor
             {
                 Times = "10"
             };
-            advr.AddFirst(new Models.AdvancedRepeat.Variables.LinearVariable() { VariableName = "ir", Begin = "0", End = "360", IsPrecisely = false });
+            advr.AddFirst(new LinearVariable() { VariableName = "ir", Begin = "0", End = "360", IsPrecisely = false });
             task.AddFirst(advr);
-            task.BulletModel.RotationExpression = "ir";
+            SimpleBulletModel simpleBullet = new SimpleBulletModel
+            {
+                RotationExpression = "ir"
+            };
+            task.BulletModel = simpleBullet;
             Model = task;
         }
 
@@ -50,7 +55,7 @@ namespace VisualDanmakuEditor
             {
                 objectPool.DeactivateAll();
                 int i = 0;
-                foreach (PredictableBulletModel model in Model.GetPredictableBulletModels())
+                foreach (PredictableBulletModelBase model in Model.GetPredictableBulletModels())
                 {
                     PredictedBullet pred = objectPool.AllocateObject().PredictedBullet;
                     pred.BulletModel = model;

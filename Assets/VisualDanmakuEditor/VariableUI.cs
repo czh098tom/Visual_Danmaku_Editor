@@ -11,7 +11,7 @@ using VisualDanmakuEditor.Models.AdvancedRepeat;
 
 namespace VisualDanmakuEditor
 {
-    public class VariableUI : AssignableUI<VariableModelBase>, ICalculationCallbackHook
+    public abstract class VariableUI : AssignableUI<VariableModelBase>, ICalculationCallbackHook
     {
         [SerializeField]
         Button change;
@@ -37,7 +37,7 @@ namespace VisualDanmakuEditor
         }
     }
 
-    public class VariableUI<T> : VariableUI where T : VariableModelBase
+    public abstract class VariableUI<T> : VariableUI where T : VariableModelBase
     {
         protected new T Model { get; private set; }
 

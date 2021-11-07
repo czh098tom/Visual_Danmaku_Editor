@@ -16,16 +16,8 @@ namespace VisualDanmakuEditor.Models
 
         private LinkedListNode<AdvancedRepeatModel> Root { get; set; }
 
-        private LinkedList<PredictableBulletModel> predictableBulletModels;
+        private LinkedList<PredictableBulletModelBase> predictableBulletModels;
         private Dictionary<string, float> variables;
-
-        private Expression vexp;
-        private Expression rexp;
-        private Expression xexp;
-        private Expression yexp;
-
-        private Expression intexp;
-        private Expression int2exp;
 
         int currTimeDelay = 0;
 
@@ -35,18 +27,10 @@ namespace VisualDanmakuEditor.Models
             Root = task.First;
         }
 
-        internal IEnumerable<PredictableBulletModel> GetPredictableBulletModels(int maxTime = int.MaxValue)
+        internal IEnumerable<PredictableBulletModelBase> GetPredictableBulletModels(int maxTime = int.MaxValue)
         {
-            predictableBulletModels = new LinkedList<PredictableBulletModel>();
+            predictableBulletModels = new LinkedList<PredictableBulletModelBase>();
             variables = new Dictionary<string, float>();
-
-            vexp = new Expression(task.BulletModel.VelocityExpression);
-            rexp = new Expression(task.BulletModel.RotationExpression);
-            xexp = new Expression(task.BulletModel.XExpression);
-            yexp = new Expression(task.BulletModel.YExpression);
-
-            intexp = new Expression(task.Interval);
-            int2exp = new Expression(task.Interval2);
 
             currTimeDelay = 0;
 
@@ -89,8 +73,6 @@ namespace VisualDanmakuEditor.Models
                         currRepeat.Pop();
                         currRepeatTimes.Pop();
                     }
-                    //if (currRepeat.Count == 2) currTimeDelay += Convert.ToInt32(int2exp.Calculate(Indexer));
-                    //if (currRepeat.Count == 1) currTimeDelay += Convert.ToInt32(intexp.Calculate(Indexer));
                     if (currRepeat.Count > 0)
                     {
                         currTimeDelay += Convert.ToInt32(new Expression(currRepeat.Peek().Value.Interval).Calculate(Indexer));
@@ -116,22 +98,7 @@ namespace VisualDanmakuEditor.Models
 
         private void GenerateBulletModel()
         {
-            float r = rexp.Calculate(Indexer);
-            float v = vexp.Calculate(Indexer);
-            float vx = Convert.ToSingle(v * Math.Cos(r * Math.PI / 180f));
-            float vy = Convert.ToSingle(v * Math.Sin(r * Math.PI / 180f));
-            predictableBulletModels.AddLast(new PredictableBulletModel()
-            {
-                Style = task.BulletModel.Style,
-                Color = task.BulletModel.Color,
-                LifeTimeBegin = currTimeDelay,
-                LifeTimeEnd = PredictableBulletModel.infinite,
-                InitX = xexp.Calculate(Indexer),
-                InitY = yexp.Calculate(Indexer),
-                Rotation = r,
-                VX = vx,
-                VY = vy
-            });
+            predictableBulletModels.AddLast(task.BulletModel.BuildModelInContext(Indexer, currTimeDelay));
         }
     }
 }

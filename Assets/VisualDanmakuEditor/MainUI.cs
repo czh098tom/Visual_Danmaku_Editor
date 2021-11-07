@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using UnityEngine;
 
-using VisualDanmakuEditor.IMGUI;
 using VisualDanmakuEditor.Porting;
 
 using static VisualDanmakuEditor.IMGUI.IMGUIHelper;

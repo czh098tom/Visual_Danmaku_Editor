@@ -6,24 +6,10 @@ using System.Threading.Tasks;
 
 using Latticework.Reflection.Utilities;
 
-namespace VisualDanmakuEditor.Models
+namespace VisualDanmakuEditor.Models.BulletPredict
 {
-    public struct PredictableBulletModel
+    public class SimplePredictableBulletModel : PredictableModelWithFixedStyle
     {
-        public const int infinite = int.MaxValue;
-
-        public static readonly PredictableBulletModel @default = new PredictableBulletModel()
-        {
-            LifeTimeBegin = -infinite,
-            LifeTimeEnd = -infinite
-        };
-
-        public string Style { get; set; }
-        public string Color { get; set; }
-
-        public int LifeTimeBegin { get; set; }
-        public int LifeTimeEnd { get; set; }
-
         public float InitX { get; set; }
         public float InitY { get; set; }
 
@@ -32,7 +18,7 @@ namespace VisualDanmakuEditor.Models
 
         public float Rotation { get; set; }
 
-        public BulletPrediction GetPredictionAt(int time)
+        public override BulletPrediction GetPredictionAt(int time)
         {
             if (time < LifeTimeBegin || time > LifeTimeEnd) return null;
 
@@ -44,11 +30,6 @@ namespace VisualDanmakuEditor.Models
             prediction.Y = InitY + VY * (time - LifeTimeBegin);
             prediction.Rotation = Rotation;
             return prediction;
-        }
-
-        public override string ToString()
-        {
-            return this.ToStringEx(typeof(ValueType));
         }
     }
 }

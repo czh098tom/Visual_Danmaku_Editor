@@ -6,10 +6,16 @@
 		"Format": "{{\"$type\":\".Task.TaskNode, \",\"Attributes\":[]}}"
 	},
 	{
-		"TargetType": "VisualDanmakuEditor.Models.BulletModelBase",
+		"TargetType": "VisualDanmakuEditor.Models.Bullet.SimpleBulletModel",
 		"TerminationType": "VisualDanmakuEditor.Models.BulletModelBase",
 		"FieldNames": ["VelocityExpression", "RotationExpression", "XExpression", "YExpression", "Style", "Color"],
 		"Format": "{{\"$type\":\".Bullet.CreateSimpleBullet, \",\"Attributes\":[{{\"attrCap\":\"Style\",\"attrInput\":\"{4}\",\"EditWindow\":\"bulletStyle\"}},{{\"attrCap\":\"Color\",\"attrInput\":\"{5}\",\"EditWindow\":\"color\"}},{{\"attrCap\":\"Position\",\"attrInput\":\"self.x+{2},self.y+{3}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Velocity\",\"attrInput\":\"{0}\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Angle\",\"attrInput\":\"{1}\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Aim to player\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Rotation velocity\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Stay on create\",\"attrInput\":\"true\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Destroyable\",\"attrInput\":\"true\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Time\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Rebound\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Acceleration\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Accel Angle\",\"attrInput\":\"0\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Max Velocity\",\"attrInput\":\"0\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Shuttle\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}}],\"IsSelected\":true,\"AttributeCount\":15}}"
+	},
+	{
+		"TargetType": "VisualDanmakuEditor.Models.Bullet.TwoSegmentModel",
+		"TerminationType": "VisualDanmakuEditor.Models.BulletModelBase",
+		"FieldNames": ["XExpression", "YExpression", "Style", "Color", "Velocity1Expression", "Rotation1Expression", "TimeExpression", "Velocity2Expression", "Rotation2Expression"],
+		"Format": "{{\"$type\":\".Bullet.CreateBullet, \",\"Attributes\":[{{\"attrCap\":\"Name\",\"attrInput\":\"\\\"Two Segment\\\"\",\"EditWindow\":\"bulletDef\"}},{{\"attrCap\":\"Position\",\"attrInput\":\"{0},{1}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Parameters\",\"attrInput\":\"{3}, {2}, {4}, {5}, {6}, {7}, {8}\",\"EditWindow\":\"bulletParam\"}}],\"IsSelected\":true,\"AttributeCount\":3}}"
 	},
 	{
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel",

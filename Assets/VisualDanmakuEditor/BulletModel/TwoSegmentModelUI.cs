@@ -8,10 +8,11 @@ using UnityEngine.UI;
 
 using Latticework.UnityEngine.UI;
 using VisualDanmakuEditor.Models;
+using VisualDanmakuEditor.Models.Bullet;
 
 namespace VisualDanmakuEditor.BulletModel
 {
-    public class DefaultModelUI : BulletModelUI
+    public class TwoSegmentModelUI : BulletModelUI<TwoSegmentModel>
     {
         [SerializeField]
         Image bulletExample;
@@ -24,14 +25,20 @@ namespace VisualDanmakuEditor.BulletModel
         [SerializeField]
         LabelledInput y;
         [SerializeField]
-        LabelledInput velocity;
+        LabelledInput rotation1;
         [SerializeField]
-        LabelledInput rotation;
+        LabelledInput velocity1;
+        [SerializeField]
+        LabelledInput time;
+        [SerializeField]
+        LabelledInput rotation2;
+        [SerializeField]
+        LabelledInput velocity2;
 
-        public override void Assign(BulletModelBase model)
+        public override void Assign(TwoSegmentModel model)
         {
             base.Assign(model);
-
+            
             BulletStyleRegistration reg = BulletStyleRegistration.Instance;
             bulletExample.sprite = reg.GetCachedSprite(model.Style, model.Color);
             color.options = reg.colorNames
@@ -44,8 +51,11 @@ namespace VisualDanmakuEditor.BulletModel
             style.value = reg.GetStyleIdOfName(model.Style);
             x.Value = model.XExpression;
             y.Value = model.YExpression;
-            velocity.Value = model.VelocityExpression;
-            rotation.Value = model.RotationExpression;
+            velocity1.Value = model.Velocity1Expression;
+            rotation1.Value = model.Rotation1Expression;
+            time.Value = model.TimeExpression;
+            velocity2.Value = model.Velocity2Expression;
+            rotation2.Value = model.Rotation2Expression;
         }
 
         private void Start()
@@ -54,8 +64,11 @@ namespace VisualDanmakuEditor.BulletModel
             style.onValueChanged.AddListener(SetStyle);
             x.InputComponent.onValueChanged.AddListener(s => { Model.XExpression = s; Calculate(); });
             y.InputComponent.onValueChanged.AddListener(s => { Model.YExpression = s; Calculate(); });
-            velocity.InputComponent.onValueChanged.AddListener(s => { Model.VelocityExpression = s; Calculate(); });
-            rotation.InputComponent.onValueChanged.AddListener(s => { Model.RotationExpression = s; Calculate(); });
+            velocity1.InputComponent.onValueChanged.AddListener(s => { Model.Velocity1Expression = s; Calculate(); });
+            rotation1.InputComponent.onValueChanged.AddListener(s => { Model.Rotation1Expression = s; Calculate(); });
+            time.InputComponent.onValueChanged.AddListener(s => { Model.TimeExpression = s; Calculate(); });
+            velocity2.InputComponent.onValueChanged.AddListener(s => { Model.Velocity2Expression = s; Calculate(); });
+            rotation2.InputComponent.onValueChanged.AddListener(s => { Model.Rotation2Expression = s; Calculate(); });
         }
 
         public void SetColor(int id)

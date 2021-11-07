@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Latticework.UnityEngine.UI;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
+using VisualDanmakuEditor.Models.Bullet;
 
 namespace VisualDanmakuEditor
 {
@@ -18,6 +19,8 @@ namespace VisualDanmakuEditor
         Button addIterator;
         [SerializeField]
         VerticalLayoutGroup firstIterator;
+        [SerializeField]
+        VerticalLayoutGroup result;
 
         LinkedList<IteratorUI> iteratorUIs = new LinkedList<IteratorUI>();
         BulletModelUI bulletModelUI;
@@ -29,6 +32,7 @@ namespace VisualDanmakuEditor
         private void Awake()
         {
             bulletModelUI = GetComponentInChildren<BulletModelUI>();
+            bulletModelUI.Change.onClick.AddListener(() => { ChangeVariable(); Calculate(); });
             calculator = FindObjectOfType<BulletCalculator>();
             Calculate = calculator.Calculate;
             foreach (ICalculationCallbackHook cal in GetComponentsInChildren<MonoBehaviour>().OfType<ICalculationCallbackHook>())
@@ -117,6 +121,25 @@ namespace VisualDanmakuEditor
             Destroy(ui.gameObject);
             Model.Remove(modelNode);
             iteratorUIs.Remove(uiNode);
+        }
+
+        private void ChangeVariable()
+        {
+            BulletModelBase model = Model.BulletModel;
+            Model.BulletModel = model switch
+            {
+                SimpleBulletModel => new TwoSegmentModel(),
+                TwoSegmentModel => new SimpleBulletModel(),
+                _ => new SimpleBulletModel()
+            };
+            Destroy(bulletModelUI.gameObject);
+            bulletModelUI = (BulletModelUI)Instantiate(UIPrototypes.Instance.SelectBulletUIObject(Model.BulletModel.GetType()))
+                .GetComponent(UIPrototypes.Instance.SelectBulletUIBehavior(Model.BulletModel.GetType()));
+            bulletModelUI.Calculate = Calculate;
+            bulletModelUI.transform.SetParent(result.transform, false);
+            bulletModelUI.transform.SetAsLastSibling();
+            bulletModelUI.Assign(Model.BulletModel);
+            bulletModelUI.Change.onClick.AddListener(() => { ChangeVariable(); Calculate(); });
         }
     }
 }

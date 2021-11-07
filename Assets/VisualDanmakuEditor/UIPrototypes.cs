@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 using Latticework.UnityEngine.Utilities;
+
 using VisualDanmakuEditor.Variable;
+using VisualDanmakuEditor.BulletModel;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
+using VisualDanmakuEditor.Models.Bullet;
 
 namespace VisualDanmakuEditor
 {
@@ -24,34 +27,54 @@ namespace VisualDanmakuEditor
         GameObject reboundingVariableUI;
         [Header("Models")]
         [SerializeField]
-        GameObject defaultModelUI;
+        GameObject simpleModelUI;
+        [SerializeField]
+        GameObject twoSegmentModelUI;
 
         public GameObject IteratorUI { get => iteratorUI; }
-        public GameObject DefaultModelUI { get => defaultModelUI; }
 
-        public Dictionary<Type, GameObject> model2PrototypeMappping = new Dictionary<Type, GameObject>();
-        public Dictionary<Type, Type> model2BehaviorTypeMappping = new Dictionary<Type, Type>();
+        private Dictionary<Type, GameObject> var2PrototypeMappping = new Dictionary<Type, GameObject>();
+        private Dictionary<Type, Type> var2BehaviorTypeMappping = new Dictionary<Type, Type>();
+
+        private Dictionary<Type, GameObject> bullet2PrototypeMappping = new Dictionary<Type, GameObject>();
+        private Dictionary<Type, Type> bullet2BehaviorTypeMappping = new Dictionary<Type, Type>();
 
         protected override void Awake()
         {
             base.Awake();
-            model2PrototypeMappping.Add(typeof(LinearVariable), linearVariableUI);
-            model2PrototypeMappping.Add(typeof(IncrementVariable), incrementVariableUI);
-            model2PrototypeMappping.Add(typeof(ReboundingVariable), reboundingVariableUI);
+            var2PrototypeMappping.Add(typeof(LinearVariable), linearVariableUI);
+            var2PrototypeMappping.Add(typeof(IncrementVariable), incrementVariableUI);
+            var2PrototypeMappping.Add(typeof(ReboundingVariable), reboundingVariableUI);
 
-            model2BehaviorTypeMappping.Add(typeof(LinearVariable), typeof(LinearVariableUI));
-            model2BehaviorTypeMappping.Add(typeof(IncrementVariable), typeof(IncrementVariableUI));
-            model2BehaviorTypeMappping.Add(typeof(ReboundingVariable), typeof(ReboundingVariableUI));
+            var2BehaviorTypeMappping.Add(typeof(LinearVariable), typeof(LinearVariableUI));
+            var2BehaviorTypeMappping.Add(typeof(IncrementVariable), typeof(IncrementVariableUI));
+            var2BehaviorTypeMappping.Add(typeof(ReboundingVariable), typeof(ReboundingVariableUI));
+
+            bullet2PrototypeMappping.Add(typeof(SimpleBulletModel), simpleModelUI);
+            bullet2PrototypeMappping.Add(typeof(TwoSegmentModel), twoSegmentModelUI);
+
+            bullet2BehaviorTypeMappping.Add(typeof(SimpleBulletModel), typeof(SimpleModelUI));
+            bullet2BehaviorTypeMappping.Add(typeof(TwoSegmentModel), typeof(TwoSegmentModelUI));
         }
 
         public GameObject SelectVariableUIObject(Type t)
         {
-            return model2PrototypeMappping[t];
+            return var2PrototypeMappping[t];
         }
 
         public Type SelectVariableUIBehavior(Type t)
         {
-            return model2BehaviorTypeMappping[t];
+            return var2BehaviorTypeMappping[t];
+        }
+
+        public GameObject SelectBulletUIObject(Type t)
+        {
+            return bullet2PrototypeMappping[t];
+        }
+
+        public Type SelectBulletUIBehavior(Type t)
+        {
+            return bullet2BehaviorTypeMappping[t];
         }
     }
 }

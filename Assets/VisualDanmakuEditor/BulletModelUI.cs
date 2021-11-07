@@ -20,4 +20,21 @@ namespace VisualDanmakuEditor
 
         public Action Calculate { get; set; }
     }
+
+    public abstract class BulletModelUI<T> : BulletModelUI where T : BulletModelBase
+    {
+        protected new T Model { get; private set; }
+
+        public override sealed void Assign(BulletModelBase model)
+        {
+            if (!(model is T)) throw new InvalidCastException();
+            Assign((T)model);
+        }
+
+        public virtual void Assign(T bulletModel)
+        {
+            base.Assign(bulletModel);
+            this.Model = bulletModel;
+        }
+    }
 }

@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Latticework.Expressions;
-
 using VisualDanmakuEditor.Models.AdvancedRepeat;
 
 namespace VisualDanmakuEditor.Models
 {
     public class TaskModel : LinkedList<AdvancedRepeatModel>
     {
-        public BulletModelBase BulletModel { get; set; } = new BulletModelBase();
+        public BulletModelBase BulletModel { get; set; }
 
         public string Interval
         {
@@ -31,7 +29,7 @@ namespace VisualDanmakuEditor.Models
             }
         }
 
-        public IEnumerable<PredictableBulletModel> GetPredictableBulletModels()
+        public IEnumerable<PredictableBulletModelBase> GetPredictableBulletModels()
         {
             return new TaskIntepreter(this).GetPredictableBulletModels();
         }

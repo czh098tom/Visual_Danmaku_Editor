@@ -8,7 +8,7 @@ namespace VisualDanmakuEditor
 {
     public class PredictedBullet : MonoBehaviour
     {
-        public PredictableBulletModel BulletModel { get; set; } = PredictableBulletModel.@default;
+        public PredictableBulletModelBase BulletModel { get; set; } = PredictableBulletModelBase.@default;
 
         SpriteRenderer spriteRenderer;
 

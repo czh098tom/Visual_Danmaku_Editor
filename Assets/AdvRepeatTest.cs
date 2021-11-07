@@ -6,6 +6,7 @@ using VisualDanmakuEditor;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
+using VisualDanmakuEditor.Models.Bullet;
 
 public class AdvRepeatTest : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class AdvRepeatTest : MonoBehaviour
         TaskModel task = new TaskModel()
         {
             Interval = "1",
-            BulletModel = new BulletModelBase()
+            BulletModel = new SimpleBulletModel()
             {
                 XExpression = "0",
                 YExpression = "120",
@@ -26,7 +27,7 @@ public class AdvRepeatTest : MonoBehaviour
             }
         };
 
-        foreach (PredictableBulletModel model in task.GetPredictableBulletModels())
+        foreach (PredictableBulletModelBase model in task.GetPredictableBulletModels())
         {
             //Debug.Log(model);
             GameObject go = Instantiate(bullet, transform.parent, true);

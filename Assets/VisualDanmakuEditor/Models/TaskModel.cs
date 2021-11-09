@@ -10,24 +10,11 @@ namespace VisualDanmakuEditor.Models
 {
     public class TaskModel : LinkedList<AdvancedRepeatModel>
     {
-        public BulletModelBase BulletModel { get; set; }
+        public string Name { get; set; } = "Task";
 
-        public string Interval
-        {
-            get => First?.Value.Interval ?? "0";
-            set
-            {
-                if (First != null) First.Value.Interval = value;
-            }
-        }
-        public string Interval2
-        {
-            get => First?.Next?.Value.Interval ?? "0";
-            set
-            {
-                if (First != null && First.Next != null) First.Next.Value.Interval = value;
-            }
-        }
+        public int BeginTime { get; set; }
+        public BulletModelBase BulletModel { get; set; }
+        public ObjectModelBase Shooter { get; set; }
 
         public IEnumerable<PredictableBulletModelBase> GetPredictableBulletModels()
         {

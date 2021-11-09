@@ -6,20 +6,9 @@ using System.Threading.Tasks;
 
 namespace VisualDanmakuEditor.Models
 {
-    public class BulletPrediction
+    public class BulletPrediction : ObjectPrediction
     {
         public string Style { get; set; }
         public string Color { get; set; }
-
-        public float X { get; set; }
-        public float Y { get; set; }
-
-        public float Rotation { get; set; }
-
-        public bool ContainsInvalidParameters()
-        {
-            return float.IsNaN(X) || float.IsNaN(Y) || float.IsNaN(Rotation)
-                || float.IsInfinity(X) || float.IsInfinity(Y) || float.IsInfinity(Rotation);
-        }
     }
 }

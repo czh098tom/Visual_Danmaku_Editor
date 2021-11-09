@@ -6,19 +6,16 @@ using System.Threading.Tasks;
 
 using Latticework.Reflection.Utilities;
 
-namespace VisualDanmakuEditor.Models.BulletPredict
+namespace VisualDanmakuEditor.Models.Predictables
 {
     public class SimplePredictableBulletModel : PredictableModelWithFixedStyle
     {
-        public float InitX { get; set; }
-        public float InitY { get; set; }
-
         public float VX { get; set; }
         public float VY { get; set; }
 
         public float Rotation { get; set; }
 
-        public override BulletPrediction GetPredictionAt(int time)
+        public override BulletPrediction GetBulletPredictionAt(int time)
         {
             if (time < LifeTimeBegin || time > LifeTimeEnd) return null;
 

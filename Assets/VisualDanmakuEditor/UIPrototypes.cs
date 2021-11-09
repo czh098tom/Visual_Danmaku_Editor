@@ -10,12 +10,18 @@ using Latticework.UnityEngine.Utilities;
 using VisualDanmakuEditor.Variable;
 using VisualDanmakuEditor.BulletModel;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
-using VisualDanmakuEditor.Models.Bullet;
+using VisualDanmakuEditor.Models.Objects;
 
 namespace VisualDanmakuEditor
 {
     public class UIPrototypes : Singleton<UIPrototypes>
     {
+        [SerializeField]
+        GameObject emptyContent;
+        [SerializeField]
+        GameObject taskUI;
+        [SerializeField]
+        GameObject taskItemUI;
         [SerializeField]
         GameObject iteratorUI;
         [Header("Variables")]
@@ -31,7 +37,10 @@ namespace VisualDanmakuEditor
         [SerializeField]
         GameObject twoSegmentModelUI;
 
+        public GameObject EmptyContent { get => emptyContent; }
+        public GameObject TaskUI { get => taskUI; }
         public GameObject IteratorUI { get => iteratorUI; }
+        public GameObject TaskItemUI { get => taskItemUI; }
 
         private Dictionary<Type, GameObject> var2PrototypeMappping = new Dictionary<Type, GameObject>();
         private Dictionary<Type, Type> var2BehaviorTypeMappping = new Dictionary<Type, Type>();

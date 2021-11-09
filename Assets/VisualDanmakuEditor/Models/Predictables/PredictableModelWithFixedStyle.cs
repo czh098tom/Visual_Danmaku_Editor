@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualDanmakuEditor.Models.BulletPredict
+namespace VisualDanmakuEditor.Models.Predictables
 {
     public abstract class PredictableModelWithFixedStyle : PredictableBulletModelBase
     {

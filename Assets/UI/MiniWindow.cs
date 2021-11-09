@@ -68,6 +68,8 @@ namespace Latticework.UnityEngine.UI
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    transform.SetAsLastSibling();
+
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas, Input.mousePosition, null, out Vector2 mouse);
 
                     Vector2 anchoredPosition = rectTransform.anchoredPosition;

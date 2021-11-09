@@ -32,7 +32,7 @@ namespace VisualDanmakuEditor.Models
             predictableBulletModels = new LinkedList<PredictableBulletModelBase>();
             variables = new Dictionary<string, float>();
 
-            currTimeDelay = 0;
+            currTimeDelay = task.BeginTime;
 
             LinkedListNode<VariableModelBase> currVariable = null;
             Stack<int> currIterTimes = new Stack<int>();
@@ -84,6 +84,18 @@ namespace VisualDanmakuEditor.Models
             {
                 GenerateBulletModel();
             }
+
+            if (task.Shooter != null && !task.BulletModel.IsGlobalCoord)
+            {
+                PredictableObjectModelBase obj = task.Shooter.BuildModelInContext(s => 0f, 0);
+                foreach (PredictableBulletModelBase bullet in predictableBulletModels)
+                {
+                    var objPred = obj.GetPredictionAt(bullet.LifeTimeBegin);
+                    bullet.InitX += objPred.X;
+                    bullet.InitY += objPred.Y;
+                }
+            }
+
             return predictableBulletModels;
         }
 
@@ -98,7 +110,7 @@ namespace VisualDanmakuEditor.Models
 
         private void GenerateBulletModel()
         {
-            predictableBulletModels.AddLast(task.BulletModel.BuildModelInContext(Indexer, currTimeDelay));
+            predictableBulletModels.AddLast(task.BulletModel.BuildBulletModelInContext(Indexer, currTimeDelay));
         }
     }
 }

@@ -9,12 +9,16 @@ using UnityEngine.UI;
 using Latticework.UnityEngine.UI;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
-using VisualDanmakuEditor.Models.Bullet;
+using VisualDanmakuEditor.Models.Objects;
 
 namespace VisualDanmakuEditor
 {
-    public class AdvancedRepeatGroupUI : AssignableUI<TaskModel>, ICalculationCallbackHook
+    public class TaskUI : Assignable<TaskModel>, ICalculationCallbackHook
     {
+        [SerializeField]
+        LabelledInput taskName;
+        [SerializeField]
+        LabelledInput beginTime;
         [SerializeField]
         Button addIterator;
         [SerializeField]
@@ -25,16 +29,14 @@ namespace VisualDanmakuEditor
         LinkedList<IteratorUI> iteratorUIs = new LinkedList<IteratorUI>();
         BulletModelUI bulletModelUI;
 
-        BulletCalculator calculator;
+        RectTransform rect;
 
         public Action Calculate { get; set; }
 
         private void Awake()
         {
-            bulletModelUI = GetComponentInChildren<BulletModelUI>();
-            bulletModelUI.Change.onClick.AddListener(() => { ChangeVariable(); Calculate(); });
-            calculator = FindObjectOfType<BulletCalculator>();
-            Calculate = calculator.Calculate;
+            rect = GetComponent<RectTransform>();
+            Calculate = () => BulletCalculator.GetCalculatorFor(Model).Calculate();
             foreach (ICalculationCallbackHook cal in GetComponentsInChildren<MonoBehaviour>().OfType<ICalculationCallbackHook>())
             {
                 cal.Calculate = Calculate;
@@ -44,6 +46,9 @@ namespace VisualDanmakuEditor
         public override void Assign(TaskModel model)
         {
             base.Assign(model);
+
+            taskName.Value = model.Name;
+            beginTime.Value = model.BeginTime.ToString();
             IteratorUI parent = null;
             foreach (AdvancedRepeatModel advr in model)
             {
@@ -56,19 +61,19 @@ namespace VisualDanmakuEditor
                     parent = AddIterator(advr, parent.IteratorContainer);
                 }
             }
-            bulletModelUI.Assign(model.BulletModel);
+            SetBulletModel();
         }
 
         private void Start()
         {
+            taskName.InputComponent.onValueChanged.AddListener(s => Model.Name = s);
+            beginTime.InputComponent.onValueChanged.AddListener(s => { Model.BeginTime = int.TryParse(s, out int v) ? v : 0; Calculate(); });
             addIterator.onClick.AddListener(() => { AddNewIterator(); Calculate(); });
-
-            Assign(calculator.Model);
         }
 
         private void Update()
         {
-            LayoutRebuilder.MarkLayoutForRebuild(GetComponent<RectTransform>());
+            LayoutRebuilder.MarkLayoutForRebuild(rect);
         }
 
         public void AddNewIterator()
@@ -123,7 +128,7 @@ namespace VisualDanmakuEditor
             iteratorUIs.Remove(uiNode);
         }
 
-        private void ChangeVariable()
+        private void ChangeModel()
         {
             BulletModelBase model = Model.BulletModel;
             Model.BulletModel = model switch
@@ -133,13 +138,18 @@ namespace VisualDanmakuEditor
                 _ => new SimpleBulletModel()
             };
             Destroy(bulletModelUI.gameObject);
+            SetBulletModel();
+        }
+
+        private void SetBulletModel()
+        {
             bulletModelUI = (BulletModelUI)Instantiate(UIPrototypes.Instance.SelectBulletUIObject(Model.BulletModel.GetType()))
                 .GetComponent(UIPrototypes.Instance.SelectBulletUIBehavior(Model.BulletModel.GetType()));
             bulletModelUI.Calculate = Calculate;
             bulletModelUI.transform.SetParent(result.transform, false);
             bulletModelUI.transform.SetAsLastSibling();
             bulletModelUI.Assign(Model.BulletModel);
-            bulletModelUI.Change.onClick.AddListener(() => { ChangeVariable(); Calculate(); });
+            bulletModelUI.Change.onClick.AddListener(() => { ChangeModel(); Calculate(); });
         }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace VisualDanmakuEditor
 {
-    public abstract class AssignableUI<T> : MonoBehaviour
+    public abstract class Assignable<T> : MonoBehaviour
     {
         public T Model { get; private set; }
 

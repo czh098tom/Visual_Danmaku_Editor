@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 using Latticework.Expressions;
 
-using VisualDanmakuEditor.Models.BulletPredict;
+using VisualDanmakuEditor.Models.Predictables;
 
-namespace VisualDanmakuEditor.Models.Bullet
+namespace VisualDanmakuEditor.Models.Objects
 {
     public class TwoSegmentModel : ModelWithFixedStyle
     {
@@ -28,7 +28,7 @@ namespace VisualDanmakuEditor.Models.Bullet
         private Expression xexp;
         private Expression yexp;
 
-        public override PredictableBulletModelBase BuildModelInContext(Func<string, float> Indexer, int currentTime)
+        public override PredictableBulletModelBase BuildBulletModelInContext(Func<string, float> Indexer, int currentTime)
         {
             v1exp = v1exp?.ToString() != Velocity1Expression ? new Expression(Velocity1Expression) : v1exp;
             r1exp = r1exp?.ToString() != Rotation1Expression ? new Expression(Rotation1Expression) : r1exp;
@@ -53,7 +53,7 @@ namespace VisualDanmakuEditor.Models.Bullet
                 Style = Style,
                 Color = Color,
                 LifeTimeBegin = currentTime,
-                LifeTimeEnd = PredictableBulletModelBase.infinite,
+                LifeTimeEnd = PredictableObjectModelBase.infinite,
                 InitX = xexp.Calculate(Indexer),
                 InitY = yexp.Calculate(Indexer),
                 Rotation1 = r1,

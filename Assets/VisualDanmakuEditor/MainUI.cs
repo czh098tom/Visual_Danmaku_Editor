@@ -42,7 +42,8 @@ namespace VisualDanmakuEditor
             {
                 fs = new FileStream(fp, FileMode.Create, FileAccess.Write);
                 sw = new StreamWriter(fs);
-                patternExporter.WriteSharpFile(FindObjectsOfType<BulletCalculator>().Select((a) => a.Model).ToArray(), 6, sw);
+                patternExporter.WriteSharpFile(FindObjectsOfType<BulletCalculator>().Select((a) => a.Model).ToArray()
+                    , FindObjectOfType<ObjectUI>().Model, 6, sw);
             }
             finally
             {

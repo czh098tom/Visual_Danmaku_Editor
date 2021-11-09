@@ -1,53 +1,78 @@
 [
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
+		"TargetType": "VisualDanmakuEditor.Models.Objects.FixedObject",
+		"TerminationType": "VisualDanmakuEditor.Models.ObjectModelBase",
+		"FieldNames": ["X", "Y"],
+		"Format": "{{\"$type\":\".Task.TaskMoveTo, \",\"Attributes\":[{{\"attrCap\":\"Destination\",\"attrInput\":\"{0},{1}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Frame\",\"attrInput\":\"60\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Mode\",\"attrInput\":\"MOVE_DECEL\",\"EditWindow\":\"interpolation\"}}],\"AttributeCount\":3}}"
+	},
+	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.TaskModel",
 		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
 		"FieldNames": [],
 		"Format": "{{\"$type\":\".Task.TaskNode, \",\"Attributes\":[]}}"
 	},
 	{
-		"TargetType": "VisualDanmakuEditor.Models.Bullet.SimpleBulletModel",
-		"TerminationType": "VisualDanmakuEditor.Models.BulletModelBase",
-		"FieldNames": ["VelocityExpression", "RotationExpression", "XExpression", "YExpression", "Style", "Color"],
-		"Format": "{{\"$type\":\".Bullet.CreateSimpleBullet, \",\"Attributes\":[{{\"attrCap\":\"Style\",\"attrInput\":\"{4}\",\"EditWindow\":\"bulletStyle\"}},{{\"attrCap\":\"Color\",\"attrInput\":\"{5}\",\"EditWindow\":\"color\"}},{{\"attrCap\":\"Position\",\"attrInput\":\"self.x+{2},self.y+{3}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Velocity\",\"attrInput\":\"{0}\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Angle\",\"attrInput\":\"{1}\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Aim to player\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Rotation velocity\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Stay on create\",\"attrInput\":\"true\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Destroyable\",\"attrInput\":\"true\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Time\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Rebound\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Acceleration\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Accel Angle\",\"attrInput\":\"0\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Max Velocity\",\"attrInput\":\"0\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Shuttle\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}}],\"IsSelected\":true,\"AttributeCount\":15}}"
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
+		"TargetType": "VisualDanmakuEditor.Models.TaskModel",
+		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+		"FieldNames": ["BeginTime"],
+		"Format": "{{\"$type\":\".Task.TaskWait, \",\"Attributes\":[{{\"attrCap\":\"Time\",\"attrInput\":\"{0}\",\"EditWindow\":\"yield\"}}],\"AttributeCount\":1}}"
 	},
 	{
-		"TargetType": "VisualDanmakuEditor.Models.Bullet.TwoSegmentModel",
+		"$type": "VisualDanmakuEditor.Porting.ConditionalExportingClassMapper, VisualDanmakuEditor.Porting",
+		"TargetType": "VisualDanmakuEditor.Models.Objects.SimpleBulletModel",
+		"TerminationType": "VisualDanmakuEditor.Models.BulletModelBase",
+		"FieldNames": ["VelocityExpression", "RotationExpression", "XExpression", "YExpression", "Style", "Color"],
+		"FormatSelector": "IsGlobalCoord",
+		"Format": "{{\"$type\":\".Bullet.CreateSimpleBullet, \",\"Attributes\":[{{\"attrCap\":\"Style\",\"attrInput\":\"{4}\",\"EditWindow\":\"bulletStyle\"}},{{\"attrCap\":\"Color\",\"attrInput\":\"{5}\",\"EditWindow\":\"color\"}},{{\"attrCap\":\"Position\",\"attrInput\":\"{2},{3}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Velocity\",\"attrInput\":\"{0}\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Angle\",\"attrInput\":\"{1}\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Aim to player\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Rotation velocity\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Stay on create\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Destroyable\",\"attrInput\":\"true\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Time\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Rebound\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Acceleration\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Accel Angle\",\"attrInput\":\"0\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Max Velocity\",\"attrInput\":\"0\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Shuttle\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}}],\"IsSelected\":true,\"AttributeCount\":15}}",
+		"FormatNegative": "{{\"$type\":\".Bullet.CreateSimpleBullet, \",\"Attributes\":[{{\"attrCap\":\"Style\",\"attrInput\":\"{4}\",\"EditWindow\":\"bulletStyle\"}},{{\"attrCap\":\"Color\",\"attrInput\":\"{5}\",\"EditWindow\":\"color\"}},{{\"attrCap\":\"Position\",\"attrInput\":\"self.x+{2},self.y+{3}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Velocity\",\"attrInput\":\"{0}\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Angle\",\"attrInput\":\"{1}\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Aim to player\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Rotation velocity\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Stay on create\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Destroyable\",\"attrInput\":\"true\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Time\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Rebound\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Acceleration\",\"attrInput\":\"0\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Accel Angle\",\"attrInput\":\"0\",\"EditWindow\":\"rotation\"}},{{\"attrCap\":\"Max Velocity\",\"attrInput\":\"0\",\"EditWindow\":\"velocity\"}},{{\"attrCap\":\"Shuttle\",\"attrInput\":\"false\",\"EditWindow\":\"bool\"}}],\"IsSelected\":true,\"AttributeCount\":15}}"
+	},
+	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
+		"TargetType": "VisualDanmakuEditor.Models.Objects.TwoSegmentModel",
 		"TerminationType": "VisualDanmakuEditor.Models.BulletModelBase",
 		"FieldNames": ["XExpression", "YExpression", "Style", "Color", "Velocity1Expression", "Rotation1Expression", "TimeExpression", "Velocity2Expression", "Rotation2Expression"],
 		"Format": "{{\"$type\":\".Bullet.CreateBullet, \",\"Attributes\":[{{\"attrCap\":\"Name\",\"attrInput\":\"\\\"Two Segment\\\"\",\"EditWindow\":\"bulletDef\"}},{{\"attrCap\":\"Position\",\"attrInput\":\"{0},{1}\",\"EditWindow\":\"position\"}},{{\"attrCap\":\"Parameters\",\"attrInput\":\"{3}, {2}, {4}, {5}, {6}, {7}, {8}\",\"EditWindow\":\"bulletParam\"}}],\"IsSelected\":true,\"AttributeCount\":3}}"
 	},
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel",
 		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
 		"FieldNames": ["Times"],
 		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.AdvancedRepeat, LuaSTGEditorSharp\",\"Attributes\":[{{\"attrCap\":\"Times\",\"attrInput\":\"{0}\",\"EditWindow\":\"yield\"}}],\"AttributeCount\":1}}"
 	},
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel",
 		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
 		"FieldNames": [],
 		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.VariableCollection, LuaSTGEditorSharp\",\"Attributes\":[]}}"
 	},
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.AdvancedRepeatModel",
 		"TerminationType": "System.Collections.Generic.LinkedList`1[[VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase, VisualDanmakuEditor.Models, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]",
 		"FieldNames": ["Interval"],
 		"Format": "{{\"$type\":\".Task.TaskWait, \",\"Attributes\":[{{\"attrCap\":\"Time\",\"attrInput\":\"{0}\",\"EditWindow\":\"yield\"}}],\"AttributeCount\":1}}"
 	},
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.Variables.LinearVariable",
 		"TerminationType": "VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase",
 		"FieldNames": ["VariableName", "Begin", "End", "IsPrecisely"],
 		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.LinearVariable, LuaSTGEditorSharp\",\"Attributes\":[{{\"attrCap\":\"Name\",\"attrInput\":\"{0}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"From\",\"attrInput\":\"{1}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"To\",\"attrInput\":\"{2}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Precisely\",\"attrInput\":\"{3}\",\"EditWindow\":\"bool\"}},{{\"attrCap\":\"Mode\",\"attrInput\":\"MOVE_NORMAL\",\"EditWindow\":\"interpolation\"}}],\"AttributeCount\":5}}"
 	},
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.Variables.IncrementVariable",
 		"TerminationType": "VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase",
 		"FieldNames": ["VariableName", "Begin", "Increment"],
 		"Format": "{{\"$type\":\".Advanced.AdvancedRepeat.IncrementVariable, LuaSTGEditorSharp\",\"Attributes\":[{{\"attrCap\":\"Name\",\"attrInput\":\"{0}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Initial value\",\"attrInput\":\"{1}\",\"EditWindow\":\"\"}},{{\"attrCap\":\"Increment\",\"attrInput\":\"{2}\",\"EditWindow\":\"\"}}],\"AttributeCount\":3}}"
 	},
 	{
+		"$type": "VisualDanmakuEditor.Porting.DefaultExportingClassMapper, VisualDanmakuEditor.Porting",
 		"TargetType": "VisualDanmakuEditor.Models.AdvancedRepeat.Variables.ReboundingVariable",
 		"TerminationType": "VisualDanmakuEditor.Models.AdvancedRepeat.VariableModelBase",
 		"FieldNames": ["VariableName", "First", "Another"],

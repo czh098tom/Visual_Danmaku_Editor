@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 using Latticework.UnityEngine.UI;
 using VisualDanmakuEditor.Models;
-using VisualDanmakuEditor.Models.Bullet;
+using VisualDanmakuEditor.Models.Objects;
 
 namespace VisualDanmakuEditor.BulletModel
 {
@@ -49,8 +49,9 @@ namespace VisualDanmakuEditor.BulletModel
             rotation.Value = model.RotationExpression;
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             color.onValueChanged.AddListener(SetColor);
             style.onValueChanged.AddListener(SetStyle);
             x.InputComponent.onValueChanged.AddListener(s => { Model.XExpression = s; Calculate(); });

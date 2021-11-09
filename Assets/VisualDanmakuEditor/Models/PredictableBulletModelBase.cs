@@ -6,28 +6,23 @@ using System.Threading.Tasks;
 
 using Latticework.Reflection.Utilities;
 
-using VisualDanmakuEditor.Models.BulletPredict;
+using VisualDanmakuEditor.Models.Predictables;
 
 namespace VisualDanmakuEditor.Models
 {
-    public abstract class PredictableBulletModelBase
+    public abstract class PredictableBulletModelBase : PredictableObjectModelBase
     {
-        public const int infinite = int.MaxValue;
-
-        public static readonly PredictableBulletModelBase @default = new SimplePredictableBulletModel()
+        public static new readonly PredictableBulletModelBase @default = new SimplePredictableBulletModel()
         {
             LifeTimeBegin = -infinite,
             LifeTimeEnd = -infinite
         };
 
-        public int LifeTimeBegin { get; set; }
-        public int LifeTimeEnd { get; set; }
+        public abstract BulletPrediction GetBulletPredictionAt(int time);
 
-        public abstract BulletPrediction GetPredictionAt(int time);
-
-        public override string ToString()
+        public override sealed ObjectPrediction GetPredictionAt(int time)
         {
-            return this.ToStringEx(typeof(ValueType));
+            return GetBulletPredictionAt(time);
         }
     }
 }

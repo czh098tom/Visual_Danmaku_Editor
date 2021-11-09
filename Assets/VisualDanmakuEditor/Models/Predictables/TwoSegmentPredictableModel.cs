@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualDanmakuEditor.Models.BulletPredict
+namespace VisualDanmakuEditor.Models.Predictables
 {
     public class TwoSegmentPredictableModel : PredictableModelWithFixedStyle
     {
-        public float InitX { get; set; }
-        public float InitY { get; set; }
-
         public float VX1 { get; set; }
         public float VY1 { get; set; }
         public int T1 { get; set; }
@@ -21,7 +18,7 @@ namespace VisualDanmakuEditor.Models.BulletPredict
         public float Rotation1 { get; set; }
         public float Rotation2 { get; set; }
 
-        public override BulletPrediction GetPredictionAt(int time)
+        public override BulletPrediction GetBulletPredictionAt(int time)
         {
             if (time < LifeTimeBegin || time > LifeTimeEnd) return null;
 

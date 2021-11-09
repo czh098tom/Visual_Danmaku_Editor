@@ -33,7 +33,7 @@ namespace VisualDanmakuEditor
             if (t >= BulletModel.LifeTimeBegin && t < BulletModel.LifeTimeEnd)
             {
                 spriteRenderer.enabled = true;
-                BulletPrediction prediction = BulletModel.GetPredictionAt(t);
+                BulletPrediction prediction = BulletModel.GetBulletPredictionAt(t);
                 if (prediction.ContainsInvalidParameters()) return;
                 transform.localPosition = new Vector3(prediction.X, prediction.Y);
                 transform.rotation = Quaternion.Euler(0, 0, prediction.Rotation);

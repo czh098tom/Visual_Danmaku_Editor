@@ -6,7 +6,7 @@ using VisualDanmakuEditor;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
-using VisualDanmakuEditor.Models.Bullet;
+using VisualDanmakuEditor.Models.Objects;
 
 public class AdvRepeatTest : MonoBehaviour
 {
@@ -17,7 +17,6 @@ public class AdvRepeatTest : MonoBehaviour
     {
         TaskModel task = new TaskModel()
         {
-            Interval = "1",
             BulletModel = new SimpleBulletModel()
             {
                 XExpression = "0",

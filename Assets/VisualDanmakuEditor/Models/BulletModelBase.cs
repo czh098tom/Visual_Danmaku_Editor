@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace VisualDanmakuEditor.Models
 {
-    public abstract class BulletModelBase
+    public abstract class BulletModelBase : ObjectModelBase
     {
-        public abstract PredictableBulletModelBase BuildModelInContext(Func<string, float> Indexer, int currentTime);
+        public bool IsGlobalCoord { get; set; }
+
+        public abstract PredictableBulletModelBase BuildBulletModelInContext(Func<string, float> indexer, int currentTime);
+
+        public override sealed PredictableObjectModelBase BuildModelInContext(Func<string, float> indexer, int currentTime)
+        {
+            return BuildBulletModelInContext(indexer, currentTime);
+        }
     }
 }

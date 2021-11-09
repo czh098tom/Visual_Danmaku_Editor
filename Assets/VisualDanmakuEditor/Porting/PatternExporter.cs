@@ -21,28 +21,30 @@ namespace VisualDanmakuEditor.Porting
             this.tail = tail.ReadToEnd();
         }
 
-        public void WriteSharpFile(TaskModel[] tasks, int offset, StreamWriter sw)
+        public void WriteSharpFile(TaskModel[] tasks, ObjectModelBase boss, int offset, StreamWriter sw)
         {
             sw.WriteLine(head);
+            sw.WriteLine($"{offset},{ExportingClassMapperBase.BindExportString(boss)[0]}");
             for (int i = 0; i < tasks.Length; i++)
             {
                 int level = offset;
-                string[] taskm = ExportingClassMapper.BindExportString(tasks[i]);
-                string[] bulletm = ExportingClassMapper.BindExportString(tasks[i].BulletModel);
+                string[] taskm = ExportingClassMapperBase.BindExportString(tasks[i]);
+                string[] bulletm = ExportingClassMapperBase.BindExportString(tasks[i].BulletModel);
                 sw.WriteLine($"{level},{taskm[0]}");
                 level++;
+                sw.WriteLine($"{level},{taskm[1]}");
                 Stack<AdvancedRepeatModel> advrback = new Stack<AdvancedRepeatModel>();
                 foreach(AdvancedRepeatModel advr in tasks[i])
                 {
                     advrback.Push(advr);
-                    string[] advrm = ExportingClassMapper.BindExportString(advr);
+                    string[] advrm = ExportingClassMapperBase.BindExportString(advr);
                     sw.WriteLine($"{level},{advrm[0]}");
                     level++;
                     sw.WriteLine($"{level},{advrm[1]}");
                     level++;
                     foreach(VariableModelBase var in advr)
                     {
-                        sw.WriteLine($"{level},{ExportingClassMapper.BindExportString(var)[0]}");
+                        sw.WriteLine($"{level},{ExportingClassMapperBase.BindExportString(var)[0]}");
                     }
                     level--;
                 }
@@ -52,7 +54,7 @@ namespace VisualDanmakuEditor.Porting
                     AdvancedRepeatModel advr = advrback.Pop();
                     if (advr.Interval != "0")
                     {
-                        string[] advrm = ExportingClassMapper.BindExportString(advr);
+                        string[] advrm = ExportingClassMapperBase.BindExportString(advr);
                         sw.WriteLine($"{level},{advrm[2]}");
                     }
                     level--;

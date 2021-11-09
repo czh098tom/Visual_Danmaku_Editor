@@ -11,14 +11,27 @@ using VisualDanmakuEditor.Models;
 
 namespace VisualDanmakuEditor
 {
-    public abstract class BulletModelUI : AssignableUI<BulletModelBase>, ICalculationCallbackHook
+    public abstract class BulletModelUI : Assignable<BulletModelBase>, ICalculationCallbackHook
     {
         [SerializeField]
         Button change;
+        [SerializeField]
+        Toggle useGlobalCoord;
 
         public Button Change { get => change; }
 
         public Action Calculate { get; set; }
+
+        public override void Assign(BulletModelBase model)
+        {
+            base.Assign(model);
+            useGlobalCoord.isOn = model.IsGlobalCoord;
+        }
+
+        protected virtual void Start()
+        {
+            useGlobalCoord.onValueChanged.AddListener(b => { Model.IsGlobalCoord = b; Calculate(); });
+        }
     }
 
     public abstract class BulletModelUI<T> : BulletModelUI where T : BulletModelBase
@@ -34,7 +47,7 @@ namespace VisualDanmakuEditor
         public virtual void Assign(T bulletModel)
         {
             base.Assign(bulletModel);
-            this.Model = bulletModel;
+            Model = bulletModel;
         }
     }
 }

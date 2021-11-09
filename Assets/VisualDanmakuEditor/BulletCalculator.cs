@@ -9,22 +9,26 @@ using Latticework.UnityEngine.Utilities;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
 using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
-using VisualDanmakuEditor.Models.Bullet;
+using VisualDanmakuEditor.Models.Objects;
 
 namespace VisualDanmakuEditor
 {
-    public class BulletCalculator : MonoBehaviour
+    public class BulletCalculator : Assignable<TaskModel>
     {
-        private static Dictionary<TaskModel, BulletObjectPool> modelPoolMapping = new Dictionary<TaskModel, BulletObjectPool>();
+        private static Dictionary<BulletCalculator, TaskModel> calcTaskMapping = new Dictionary<BulletCalculator, TaskModel>();
+        private static Dictionary<TaskModel, BulletCalculator> taskCalcMapping = new Dictionary<TaskModel, BulletCalculator>();
+
+        public static BulletCalculator GetCalculatorFor(TaskModel model) => taskCalcMapping[model];
 
         private BulletObjectPool objectPool;
-        public TaskModel Model { get; private set; }
 
         private void Awake()
         {
             LuaSTGFunctionRegistry.Register();
-            objectPool = FindObjectOfType<BulletObjectPool>();
+            objectPool = GetComponent<BulletObjectPool>();
             CreateDefaultModel();
+            calcTaskMapping.Add(this, Model);
+            taskCalcMapping.Add(Model, this);
         }
 
         private void Start()
@@ -46,7 +50,7 @@ namespace VisualDanmakuEditor
                 RotationExpression = "ir"
             };
             task.BulletModel = simpleBullet;
-            Model = task;
+            base.Assign(task);
         }
 
         public void Calculate()
@@ -72,6 +76,12 @@ namespace VisualDanmakuEditor
             {
 #endif
             }
+        }
+
+        private void OnDestroy()
+        {
+            calcTaskMapping.Remove(this);
+            taskCalcMapping.Remove(Model);
         }
     }
 }

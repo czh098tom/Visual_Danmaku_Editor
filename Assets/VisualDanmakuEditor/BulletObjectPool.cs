@@ -18,7 +18,6 @@ namespace VisualDanmakuEditor.Models
             {
                 base.Awake();
                 PredictedBullet = Instance.GetComponent<PredictedBullet>();
-                PredictedBullet.transform.localScale = UnityEngine.Vector3.one;
             }
         }
     }

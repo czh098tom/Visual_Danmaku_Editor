@@ -19,7 +19,7 @@ namespace Assets
     {
         private void Awake()
         {
-            Debug.Log(ExportingClassMapper.GetMappersOfType(typeof(LinearVariable))[0].Bind(new LinearVariable()
+            Debug.Log(DefaultExportingClassMapper.GetMappersOfType(typeof(LinearVariable))[0].Bind(new LinearVariable()
             {
                 VariableName = "x",
                 Begin = "0",

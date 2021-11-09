@@ -14,7 +14,7 @@ using VisualDanmakuEditor.Models.AdvancedRepeat.Variables;
 
 namespace VisualDanmakuEditor
 {
-    public class IteratorUI : AssignableUI<AdvancedRepeatModel>, ICalculationCallbackHook
+    public class IteratorUI : Assignable<AdvancedRepeatModel>, ICalculationCallbackHook
     {
         [SerializeField]
         Button remove;

@@ -47,7 +47,7 @@ namespace VisualDanmakuEditor.Models
 
             OperatorBase.RegisterFunction(
                 new FunctionDescriptor("atan2", new Func<IReadOnlyList<float>, float>((f) 
-                => Convert.ToSingle(Math.Atan2(f[0], f[1]) / Math.PI * 180))));
+                => Convert.ToSingle(Math.Atan2(f[1], f[0]) / Math.PI * 180))));
             OperatorBase.RegisterFunction(
                 new FunctionDescriptor("hypot", new Func<IReadOnlyList<float>, float>((f) 
                 => Convert.ToSingle(Math.Sqrt(f[0] * f[0] + f[1] * f[1])))));

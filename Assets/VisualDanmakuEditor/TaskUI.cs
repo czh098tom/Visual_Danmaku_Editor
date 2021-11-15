@@ -133,8 +133,22 @@ namespace VisualDanmakuEditor
             BulletModelBase model = Model.BulletModel;
             Model.BulletModel = model switch
             {
-                SimpleBulletModel => new TwoSegmentModel(),
-                TwoSegmentModel => new SimpleBulletModel(),
+                SimpleBulletModel m => new TwoSegmentModel() 
+                { 
+                    Style = m.Style, 
+                    Color = m.Color, 
+                    XExpression = m.XExpression, 
+                    YExpression = m.YExpression, 
+                    IsGlobalCoord = m.IsGlobalCoord 
+                },
+                TwoSegmentModel m => new SimpleBulletModel()
+                {
+                    Style = m.Style,
+                    Color = m.Color,
+                    XExpression = m.XExpression,
+                    YExpression = m.YExpression,
+                    IsGlobalCoord = m.IsGlobalCoord
+                },
                 _ => new SimpleBulletModel()
             };
             Destroy(bulletModelUI.gameObject);

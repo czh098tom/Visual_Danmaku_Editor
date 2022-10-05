@@ -10,11 +10,14 @@ namespace VisualDanmakuEditor
     {
         public PredictableBulletModelBase BulletModel { get; set; } = PredictableBulletModelBase.@default;
 
+        private PredictedBulletVelocityBar arrow;
+
         SpriteRenderer spriteRenderer;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            arrow = GetComponentInChildren<PredictedBulletVelocityBar>();
         }
 
         private void Start()
@@ -38,16 +41,30 @@ namespace VisualDanmakuEditor
                 transform.localPosition = new Vector3(prediction.X, prediction.Y);
                 transform.rotation = Quaternion.Euler(0, 0, prediction.Rotation);
                 spriteRenderer.sprite = BulletStyleRegistration.Instance.GetCachedSprite(prediction.Style, prediction.Color);
+                arrow.gameObject.SetActive(TimeLine.Instance.ShowVelocity);
+                if (TimeLine.Instance.ShowVelocity)
+                {
+                    BulletPrediction predictionDelta = BulletModel.GetBulletPredictionAt(t + 1);
+                    float l = 0;
+                    if (!predictionDelta.ContainsInvalidParameters())
+                    {
+                        Vector2 v = new Vector2(predictionDelta.X - prediction.X, predictionDelta.Y - prediction.Y);
+                        l = v.magnitude;
+                    }
+                    arrow.Length = l;
+                }
             }
             else
             {
                 spriteRenderer.enabled = false;
+                arrow.gameObject.SetActive(false);
             }
         }
 
         public void Hide()
         {
             spriteRenderer.enabled = false;
+            arrow.gameObject.SetActive(false);
         }
     }
 }

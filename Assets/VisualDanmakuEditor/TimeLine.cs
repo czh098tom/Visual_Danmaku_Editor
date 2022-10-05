@@ -14,16 +14,20 @@ namespace VisualDanmakuEditor
 
         public int CurrentTime { get; private set; }
         public int MaxTime { get; set; } = 400;
+        public bool ShowVelocity { get; set; } = true;
+
         Slider slider;
-        Button button;
+        Button play;
+        Toggle velocity;
 
         bool isAuto = false;
 
         private void Awake()
         {
             slider = GetComponentInChildren<Slider>();
-            button = GetComponentInChildren<Button>();
-            button.onClick.AddListener(ModeShift);
+            play = GetComponentsInChildren<Button>().First(b => b.gameObject.name == "Play");
+            velocity = GetComponentsInChildren<Toggle>().First(b => b.gameObject.name == "Velocity");
+            play.onClick.AddListener(ModeShift);
             Instance = this;
         }
 
@@ -37,6 +41,7 @@ namespace VisualDanmakuEditor
                 slider.value += tEx;
             }
             CurrentTime = Convert.ToInt32(slider.value);
+            ShowVelocity = velocity.isOn;
         }
 
         private void OnGUI()

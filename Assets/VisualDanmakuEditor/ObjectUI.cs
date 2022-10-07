@@ -46,12 +46,12 @@ namespace VisualDanmakuEditor
             Boss = FindObjectOfType<PredictedObject>();
         }
 
-        public override void Assign(FixedObject model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
+            base.UpdateUI();
 
-            x.Value = model.X.ToString();
-            y.Value = model.Y.ToString();
+            x.Value = Model.X.ToString();
+            y.Value = Model.Y.ToString();
         }
 
         private void Start()
@@ -61,7 +61,7 @@ namespace VisualDanmakuEditor
             add.onClick.AddListener(() => { AddTask(); });
             remove.onClick.AddListener(RemoveTask);
 
-            Assign(new FixedObject() { X = 0, Y = 100 });
+            AssignAndUpdateUI(new FixedObject() { X = 0, Y = 100 });
         }
 
         private void Update()
@@ -91,7 +91,7 @@ namespace VisualDanmakuEditor
             taskItem.GetComponent<Toggle>().group = taskGroup;
             taskCalcMapping.Add(taskItem, calc);
             taskItem.Toggle.onValueChanged.AddListener(b => { if (b) SwitchTo(index); });
-            taskItem.Assign(taskModel);
+            taskItem.AssignAndUpdateUI(taskModel);
             SwitchTo(index);
         }
 

@@ -18,6 +18,19 @@ namespace Latticework.Expressions
 
         public static OperatorBase GetOperator(string s)
         {
+            InitOperators();
+            try
+            {
+                return cached[s];
+            }
+            catch (KeyNotFoundException knf)
+            {
+                throw new OperatorNotFoundException(s, knf);
+            }
+        }
+
+        private static void InitOperators()
+        {
             if (operatorCtor == null)
             {
                 operatorCtor = new Dictionary<string, ConstructorInfo>();
@@ -32,20 +45,24 @@ namespace Latticework.Expressions
                 }
                 functionCall = cached[Operator.FunctionCall.identifier] as Operator.FunctionCall;
             }
-            try
-            {
-                return cached[s];
-            }
-            catch (KeyNotFoundException knf)
-            {
-                throw new OperatorNotFoundException(s, knf);
-            }
         }
+
+        public static bool HasOperator(string name)
+        {
+            InitOperators();
+            return cached.ContainsKey(name);
+        } 
 
         public static void RegisterFunction(FunctionDescriptor function)
         {
             GetOperator(Operator.FunctionCall.identifier);
             functionCall.Register(function);
+        }
+
+        public static bool HasFunction(string name)
+        {
+            GetOperator(Operator.FunctionCall.identifier);
+            return functionCall.HasFunc(name);
         }
 
         protected readonly Stack<float> result = new Stack<float>();

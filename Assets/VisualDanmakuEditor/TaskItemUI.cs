@@ -25,14 +25,14 @@ namespace VisualDanmakuEditor
             Toggle = GetComponent<Toggle>();
         }
 
-        public override void Assign(TaskModel model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
+            taskName.text = Model.Name;
         }
 
         private void Update()
         {
-            taskName.text = Model.Name;
+            UpdateUI();
         }
     }
 }

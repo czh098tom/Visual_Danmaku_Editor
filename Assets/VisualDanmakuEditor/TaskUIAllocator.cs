@@ -42,7 +42,7 @@ namespace VisualDanmakuEditor
                 ui.transform.SetParent(viewPort.transform, false);
                 scrollRect.content = ui.GetComponent<RectTransform>();
                 content = ui.gameObject;
-                ui.Assign(model);
+                ui.AssignAndUpdateUI(model);
             }
             else
             {

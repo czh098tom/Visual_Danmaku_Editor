@@ -22,10 +22,10 @@ namespace VisualDanmakuEditor
 
         public Action Calculate { get; set; }
 
-        public override void Assign(BulletModelBase model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
-            useGlobalCoord.isOn = model.IsGlobalCoord;
+            base.UpdateUI();
+            useGlobalCoord.isOn = Model.IsGlobalCoord;
         }
 
         protected virtual void Start()
@@ -38,13 +38,13 @@ namespace VisualDanmakuEditor
     {
         protected new T Model { get; private set; }
 
-        public override sealed void Assign(BulletModelBase model)
+        protected override sealed void Assign(BulletModelBase model)
         {
             if (!(model is T)) throw new InvalidCastException();
             Assign((T)model);
         }
 
-        public virtual void Assign(T bulletModel)
+        protected virtual void Assign(T bulletModel)
         {
             base.Assign(bulletModel);
             Model = bulletModel;

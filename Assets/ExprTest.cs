@@ -4,6 +4,7 @@ using UnityEngine;
 
 using Latticework.Expressions;
 using VisualDanmakuEditor.Models;
+using VisualDanmakuEditor.Models.AdvancedRepeat;
 
 public class ExprTest : MonoBehaviour
 {
@@ -16,14 +17,22 @@ public class ExprTest : MonoBehaviour
 
     [SerializeField]
     string expr;
+    [SerializeField]
+    float prop = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         LuaSTGFunctionRegistry.Register();
         Expression expr = new Expression(this.expr);
+        Expression exprp = new Expression(VariableModelBase.Scale(expr.Original, prop));
         Debug.Log(expr.ToReversedPolandExprString());
         Debug.Log(expr.Calculate(GetOrDefault));
+        Debug.Log(expr.IsConstant);
+        Debug.Log(exprp.Original);
+        Debug.Log(exprp.ToReversedPolandExprString());
+        Debug.Log(exprp.Calculate(GetOrDefault));
+        Debug.Log(exprp.IsConstant);
     }
 
     private float GetOrDefault(string s)

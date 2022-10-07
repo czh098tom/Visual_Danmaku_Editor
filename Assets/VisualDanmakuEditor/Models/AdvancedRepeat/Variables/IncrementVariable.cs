@@ -19,5 +19,10 @@ namespace VisualDanmakuEditor.Models.AdvancedRepeat.Variables
             float increment = new Expression(Increment).Calculate(getValue);
             return begin + currentIndex * increment;
         }
+
+        public override void AdjustDensity(int before, int after)
+        {
+            Increment = Scale(Increment, after / (float)before);
+        }
     }
 }

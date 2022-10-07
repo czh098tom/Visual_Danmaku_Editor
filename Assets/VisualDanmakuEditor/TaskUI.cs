@@ -43,7 +43,7 @@ namespace VisualDanmakuEditor
             }
         }
 
-        public override void Assign(TaskModel model)
+        protected override void Assign(TaskModel model)
         {
             base.Assign(model);
 
@@ -98,7 +98,7 @@ namespace VisualDanmakuEditor
             rect.SetParent(parent.transform, false);
             rect.SetSiblingIndex(parent.transform.childCount - 1 + idOffset);
             iteratorUIs.AddLast(ui);
-            ui.Assign(model);
+            ui.AssignAndUpdateUI(model);
             ui.Remove.onClick.AddListener(() => { RemoveIterator(ui); Calculate(); });
             return ui;
         }
@@ -162,7 +162,7 @@ namespace VisualDanmakuEditor
             bulletModelUI.Calculate = Calculate;
             bulletModelUI.transform.SetParent(result.transform, false);
             bulletModelUI.transform.SetAsLastSibling();
-            bulletModelUI.Assign(Model.BulletModel);
+            bulletModelUI.AssignAndUpdateUI(Model.BulletModel);
             bulletModelUI.Change.onClick.AddListener(() => { ChangeModel(); Calculate(); });
         }
     }

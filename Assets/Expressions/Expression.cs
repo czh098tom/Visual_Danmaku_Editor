@@ -10,13 +10,33 @@ namespace Latticework.Expressions
 {
     public class Expression
     {
+        static readonly Func<string, float> emptyGetter = s => 0;
+
         readonly string original;
         readonly LinkedList<string> reversedPolandExpr = new LinkedList<string>();
+
+        public string Original => original;
+
+        public bool IsConstant { get; private set; }
 
         public Expression(string expression)
         {
             original = expression;
             reversedPolandExpr = ExpressionResolver.Default.GetReversedPolandExpression(expression);
+            IsConstant = true;
+            foreach (string s in reversedPolandExpr)
+            {
+                if (!OperatorBase.HasOperator(s) && !OperatorBase.HasFunction(s) && !float.TryParse(s, out float _))
+                {
+                    IsConstant = false;
+                }
+            }
+        }
+
+        public float Calculate()
+        {
+            if (!IsConstant) throw new InvalidOperationException("Expression is not a constant");
+            return Calculate(emptyGetter);
         }
 
         public float Calculate(Func<string, float> variableGetter)

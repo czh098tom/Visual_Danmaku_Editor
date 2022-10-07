@@ -11,9 +11,15 @@ namespace VisualDanmakuEditor
     {
         public T Model { get; private set; }
 
-        public virtual void Assign(T model)
+        public void AssignAndUpdateUI(T model)
         {
             this.Model = model;
+            Assign(model);
+            UpdateUI();
         }
+
+        protected virtual void Assign(T model) { }
+
+        public virtual void UpdateUI() { }
     }
 }

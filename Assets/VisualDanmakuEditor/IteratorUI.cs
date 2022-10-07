@@ -26,6 +26,14 @@ namespace VisualDanmakuEditor
         LabelledInput interval;
         [SerializeField]
         VerticalLayoutGroup variableContainer;
+        [SerializeField]
+        Button densityDown;
+        [SerializeField]
+        Button densityUp;
+        [SerializeField]
+        Button lengthDown;
+        [SerializeField]
+        Button lengthUp;
 
         VerticalLayoutGroup iteratorContainer;
 
@@ -42,14 +50,22 @@ namespace VisualDanmakuEditor
             iteratorContainer = GetComponent<VerticalLayoutGroup>();
         }
 
-        public override void Assign(AdvancedRepeatModel model)
+        protected override void Assign(AdvancedRepeatModel model)
         {
             base.Assign(model);
-            times.Value = model.Times;
-            interval.Value = model.Interval;
             foreach (VariableModelBase var in model)
             {
                 AddVariable(var);
+            }
+        }
+
+        public override void UpdateUI()
+        {
+            times.Value = Model.Times;
+            interval.Value = Model.Interval;
+            foreach(VariableUI vui in variables)
+            {
+                vui.UpdateUI();
             }
         }
 
@@ -58,6 +74,10 @@ namespace VisualDanmakuEditor
             times.InputComponent.onValueChanged.AddListener(s => { Model.Times = s; Calculate(); });
             interval.InputComponent.onValueChanged.AddListener(s => { Model.Interval = s; Calculate(); });
             addVariable.onClick.AddListener(() => { AddNewVariable(); Calculate(); });
+            densityDown.onClick.AddListener(() => { Model.AdjustDensity(-1); UpdateUI(); Calculate(); });
+            densityUp.onClick.AddListener(() => { Model.AdjustDensity(+1); UpdateUI(); Calculate(); });
+            lengthDown.onClick.AddListener(() => { Model.AdjustLength(-1); UpdateUI(); Calculate(); });
+            lengthUp.onClick.AddListener(() => { Model.AdjustLength(+1); UpdateUI(); Calculate(); });
         }
 
         public void AddNewVariable()
@@ -76,7 +96,7 @@ namespace VisualDanmakuEditor
             rect.SetParent(variableContainer.transform, false);
             rect.SetAsLastSibling();
             variables.Add(ui);
-            ui.Assign(var);
+            ui.AssignAndUpdateUI(var);
             ui.Remove.onClick.AddListener(() => { RemoveVariable(ui); Calculate(); });
             ui.Change.onClick.AddListener(() => { ChangeVariable(ui); Calculate(); });
         }
@@ -136,7 +156,7 @@ namespace VisualDanmakuEditor
             rect.SetParent(variableContainer.transform, false);
             rect.SetSiblingIndex(variableContainer.transform.childCount - count + id);
             variables.Insert(id , newUI);
-            newUI.Assign(var);
+            newUI.AssignAndUpdateUI(var);
             newUI.Remove.onClick.AddListener(() => { RemoveVariable(newUI); Calculate(); });
             newUI.Change.onClick.AddListener(() => { ChangeVariable(newUI); Calculate(); });
         }

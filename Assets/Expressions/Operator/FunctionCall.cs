@@ -25,6 +25,11 @@ namespace Latticework.Expressions.Operator
             parameterCount.Add(function.Name, function.ParameterCount);
         }
 
+        internal bool HasFunc(string name)
+        {
+            return functions.ContainsKey(name);
+        }
+
         public override IEnumerable<ExpressionCalculatingException> OperandCounter(Stack<float> values, Stack<string> identifiers)
         {
             while (!functions.ContainsKey(identifiers.Peek()))

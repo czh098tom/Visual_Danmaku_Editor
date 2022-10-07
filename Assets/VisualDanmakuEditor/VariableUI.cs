@@ -25,10 +25,10 @@ namespace VisualDanmakuEditor
 
         public Action Calculate { get; set; }
 
-        public override void Assign(VariableModelBase model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
-            variableName.Value = model.VariableName;
+            base.UpdateUI();
+            variableName.Value = Model.VariableName;
         }
 
         public virtual void Start()
@@ -41,13 +41,13 @@ namespace VisualDanmakuEditor
     {
         protected new T Model { get; private set; }
 
-        public override sealed void Assign(VariableModelBase model)
+        protected override sealed void Assign(VariableModelBase model)
         {
             if (!(model is T)) throw new InvalidCastException();
             Assign((T)model);
         }
 
-        public virtual void Assign(T variableModel)
+        protected virtual void Assign(T variableModel)
         {
             base.Assign(variableModel);
             this.Model = variableModel;

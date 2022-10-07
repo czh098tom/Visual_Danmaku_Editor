@@ -20,12 +20,12 @@ namespace VisualDanmakuEditor.Variable
         [SerializeField]
         Toggle includeEndPoint;
 
-        public override void Assign(LinearVariable model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
-            begin.Value = model.Begin;
-            end.Value = model.End;
-            includeEndPoint.isOn = model.IsPrecisely;
+            base.UpdateUI();
+            begin.Value = Model.Begin;
+            end.Value = Model.End;
+            includeEndPoint.isOn = Model.IsPrecisely;
         }
 
         public override void Start()

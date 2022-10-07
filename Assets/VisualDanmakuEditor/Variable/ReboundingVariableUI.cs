@@ -18,11 +18,11 @@ namespace VisualDanmakuEditor.Variable
         [SerializeField]
         LabelledInput another;
 
-        public override void Assign(ReboundingVariable model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
-            first.Value = model.First;
-            another.Value = model.Another;
+            base.UpdateUI();
+            first.Value = Model.First;
+            another.Value = Model.Another;
         }
 
         public override void Start()

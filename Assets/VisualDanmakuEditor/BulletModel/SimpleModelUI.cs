@@ -29,7 +29,7 @@ namespace VisualDanmakuEditor.BulletModel
         [SerializeField]
         LabelledInput velocity;
 
-        public override void Assign(SimpleBulletModel model)
+        protected override void Assign(SimpleBulletModel model)
         {
             base.Assign(model);
 
@@ -41,12 +41,18 @@ namespace VisualDanmakuEditor.BulletModel
             style.options = reg.styleNames
                 .Select(s => new Dropdown.OptionData() { text = s, image = reg.GetCachedSprite(s, model.Color) })
                 .ToList();
-            color.value = reg.GetColorIdOfName(model.Color);
-            style.value = reg.GetStyleIdOfName(model.Style);
-            x.Value = model.XExpression;
-            y.Value = model.YExpression;
-            velocity.Value = model.VelocityExpression;
-            rotation.Value = model.RotationExpression;
+        }
+
+        public override void UpdateUI()
+        {
+            base.UpdateUI();
+            BulletStyleRegistration reg = BulletStyleRegistration.Instance;
+            color.value = reg.GetColorIdOfName(Model.Color);
+            style.value = reg.GetStyleIdOfName(Model.Style);
+            x.Value = Model.XExpression;
+            y.Value = Model.YExpression;
+            velocity.Value = Model.VelocityExpression;
+            rotation.Value = Model.RotationExpression;
         }
 
         protected override void Start()

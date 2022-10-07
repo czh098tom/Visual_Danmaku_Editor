@@ -50,7 +50,7 @@ namespace VisualDanmakuEditor
                 RotationExpression = "ir"
             };
             task.BulletModel = simpleBullet;
-            base.Assign(task);
+            base.AssignAndUpdateUI(task);
         }
 
         public void Calculate()

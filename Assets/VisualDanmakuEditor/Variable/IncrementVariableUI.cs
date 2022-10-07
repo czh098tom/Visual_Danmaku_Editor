@@ -18,11 +18,11 @@ namespace VisualDanmakuEditor.Variable
         [SerializeField]
         LabelledInput increment;
 
-        public override void Assign(IncrementVariable model)
+        public override void UpdateUI()
         {
-            base.Assign(model);
-            begin.Value = model.Begin;
-            increment.Value = model.Increment;
+            base.UpdateUI();
+            begin.Value = Model.Begin;
+            increment.Value = Model.Increment;
         }
 
         public override void Start()

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
+using VisualDanmakuEditor.Models.Objects;
 
 namespace VisualDanmakuEditor.Porting
 {
@@ -48,7 +49,27 @@ namespace VisualDanmakuEditor.Porting
                     }
                     level--;
                 }
-                sw.WriteLine($"{level},{bulletm[0]}");
+                if (tasks[i].BulletModel is CurveBulletModel cbm)
+                {
+                    var variables = string.Join(", ", cbm.GetVariables());
+                    sw.WriteLine($"{level},{string.Format(bulletm[0], variables)}");
+                    sw.WriteLine($"{level + 1},{bulletm[1]}");
+                    sw.WriteLine($"{level + 2},{bulletm[2]}");
+                    sw.WriteLine($"{level + 3},{bulletm[3]}");
+                    foreach (var cp in cbm.TVExpression)
+                    {
+                        sw.WriteLine($"{level + 4},{ExportingClassMapperBase.BindExportString(cp)[0]}");
+                    }
+                    sw.WriteLine($"{level + 3},{bulletm[3]}");
+                    foreach (var cp in cbm.TRExpression)
+                    {
+                        sw.WriteLine($"{level + 4},{ExportingClassMapperBase.BindExportString(cp)[0]}");
+                    }
+                }
+                else
+                {
+                    sw.WriteLine($"{level},{bulletm[0]}");
+                }
                 while (advrback.Count > 0)
                 {
                     AdvancedRepeatModel advr = advrback.Pop();

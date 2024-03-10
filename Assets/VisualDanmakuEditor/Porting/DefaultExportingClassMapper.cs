@@ -20,7 +20,7 @@ namespace VisualDanmakuEditor.Porting
         public Type TerminationType { get; private set; }
 
         [JsonProperty]
-        public string[] FieldNames { get; private set; }
+        public string[] FieldNames { get; private set; } = Array.Empty<string>();
 
         [JsonProperty]
         public string Format { get; private set; }

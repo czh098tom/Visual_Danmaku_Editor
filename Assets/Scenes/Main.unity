@@ -3980,6 +3980,10 @@ MonoBehaviour:
     type: 3}
   twoSegmentModelUI: {fileID: 5166926278490635126, guid: 20b64af40e8f51c42af1b48d1d47cd9d,
     type: 3}
+  curveModelUI: {fileID: 5166926278490635126, guid: 26041fc60ebfeab489833176342a7dbe,
+    type: 3}
+  curvePointUI: {fileID: 3547373608396606240, guid: 61d6a8568ba83d2459396e04308142ae,
+    type: 3}
 --- !u!4 &1905829819
 Transform:
   m_ObjectHideFlags: 0

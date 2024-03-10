@@ -24,6 +24,7 @@ namespace VisualDanmakuEditor
         GameObject taskItemUI;
         [SerializeField]
         GameObject iteratorUI;
+
         [Header("Variables")]
         [SerializeField]
         GameObject linearVariableUI;
@@ -31,16 +32,24 @@ namespace VisualDanmakuEditor
         GameObject incrementVariableUI;
         [SerializeField]
         GameObject reboundingVariableUI;
+
         [Header("Models")]
         [SerializeField]
         GameObject simpleModelUI;
         [SerializeField]
         GameObject twoSegmentModelUI;
+        [SerializeField]
+        GameObject curveModelUI;
+
+        [Header("Curve Points")]
+        [SerializeField]
+        GameObject curvePointUI;
 
         public GameObject EmptyContent { get => emptyContent; }
         public GameObject TaskUI { get => taskUI; }
         public GameObject IteratorUI { get => iteratorUI; }
         public GameObject TaskItemUI { get => taskItemUI; }
+        public GameObject CurvePointUI { get => curvePointUI; }
 
         private Dictionary<Type, GameObject> var2PrototypeMappping = new Dictionary<Type, GameObject>();
         private Dictionary<Type, Type> var2BehaviorTypeMappping = new Dictionary<Type, Type>();
@@ -61,9 +70,11 @@ namespace VisualDanmakuEditor
 
             bullet2PrototypeMappping.Add(typeof(SimpleBulletModel), simpleModelUI);
             bullet2PrototypeMappping.Add(typeof(TwoSegmentModel), twoSegmentModelUI);
+            bullet2PrototypeMappping.Add(typeof(CurveBulletModel), curveModelUI);
 
             bullet2BehaviorTypeMappping.Add(typeof(SimpleBulletModel), typeof(SimpleModelUI));
             bullet2BehaviorTypeMappping.Add(typeof(TwoSegmentModel), typeof(TwoSegmentModelUI));
+            bullet2BehaviorTypeMappping.Add(typeof(CurveBulletModel), typeof(CurveModelUI));
         }
 
         public GameObject SelectVariableUIObject(Type t)

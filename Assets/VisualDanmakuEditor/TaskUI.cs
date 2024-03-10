@@ -141,7 +141,15 @@ namespace VisualDanmakuEditor
                     YExpression = m.YExpression, 
                     IsGlobalCoord = m.IsGlobalCoord 
                 },
-                TwoSegmentModel m => new SimpleBulletModel()
+                TwoSegmentModel m => new CurveBulletModel()
+                {
+                    Style = m.Style,
+                    Color = m.Color,
+                    XExpression = m.XExpression,
+                    YExpression = m.YExpression,
+                    IsGlobalCoord = m.IsGlobalCoord
+                },
+                CurveBulletModel m => new SimpleBulletModel()
                 {
                     Style = m.Style,
                     Color = m.Color,

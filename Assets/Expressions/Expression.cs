@@ -33,6 +33,19 @@ namespace Latticework.Expressions
             }
         }
 
+        public IEnumerable<string> GetVariables()
+        {
+            foreach (string s in reversedPolandExpr)
+            {
+                if (IsIdentifierOrNumber(s[0]) 
+                    && !float.TryParse(s, out float _) 
+                    && !OperatorBase.HasFunction(s))
+                {
+                    yield return s;
+                }
+            }
+        }
+
         public float Calculate()
         {
             if (!IsConstant) throw new InvalidOperationException("Expression is not a constant");

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+using VisualDanmakuEditor.Models;
+
 namespace VisualDanmakuEditor
 {
     public class BulletCalculatorAllocator : MonoBehaviour
@@ -21,9 +23,10 @@ namespace VisualDanmakuEditor
             calculators.AddRange(GetComponentsInChildren<BulletCalculator>());
         }
 
-        public BulletCalculator Add()
+        public BulletCalculator Add(TaskModel task = null)
         {
             BulletCalculator calc = Instantiate(bulletCalculatorAndPool).GetComponent<BulletCalculator>();
+            if (task != null) calc.AssignAndUpdateUI(task);
             calc.transform.SetParent(transform);
             calc.transform.localScale = Vector3.one;
             return calc;

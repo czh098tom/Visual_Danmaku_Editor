@@ -27,8 +27,6 @@ namespace VisualDanmakuEditor
             LuaSTGFunctionRegistry.Register();
             objectPool = GetComponent<BulletObjectPool>();
             CreateDefaultModel();
-            calcTaskMapping.Add(this, Model);
-            taskCalcMapping.Add(Model, this);
         }
 
         private void Start()
@@ -51,6 +49,15 @@ namespace VisualDanmakuEditor
             };
             task.BulletModel = simpleBullet;
             base.AssignAndUpdateUI(task);
+        }
+
+        protected override void Assign(TaskModel model)
+        {
+            if (calcTaskMapping.ContainsKey(this)) calcTaskMapping.Remove(this);
+            if (taskCalcMapping.ContainsKey(Model)) taskCalcMapping.Remove(Model);
+            base.Assign(model);
+            calcTaskMapping.Add(this, Model);
+            taskCalcMapping.Add(Model, this);
         }
 
         public void Calculate()

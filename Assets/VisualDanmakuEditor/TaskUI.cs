@@ -10,6 +10,7 @@ using Latticework.UnityEngine.UI;
 using VisualDanmakuEditor.Models;
 using VisualDanmakuEditor.Models.AdvancedRepeat;
 using VisualDanmakuEditor.Models.Objects;
+using VisualDanmakuEditor.Models.Curve;
 
 namespace VisualDanmakuEditor
 {
@@ -147,7 +148,9 @@ namespace VisualDanmakuEditor
                     Color = m.Color,
                     XExpression = m.XExpression,
                     YExpression = m.YExpression,
-                    IsGlobalCoord = m.IsGlobalCoord
+                    IsGlobalCoord = m.IsGlobalCoord,
+                    TVExpression = new List<CurvePoint>() { new CurvePoint() { Time = "0", Value = "3" } },
+                    TRExpression = new List<CurvePoint>() { new CurvePoint() { Time = "0", Value = "ir" } }
                 },
                 CurveBulletModel m => new SimpleBulletModel()
                 {

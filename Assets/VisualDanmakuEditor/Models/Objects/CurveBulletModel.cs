@@ -17,10 +17,8 @@ namespace VisualDanmakuEditor.Models.Objects
     {
         public string XExpression { get; set; } = "0";
         public string YExpression { get; set; } = "0";
-        public List<CurvePoint> TVExpression { get; private set; } 
-            = new List<CurvePoint>() { new CurvePoint() { Time = "0", Value = "3" } };
-        public List<CurvePoint> TRExpression { get; private set; } 
-            = new List<CurvePoint>() { new CurvePoint() { Time = "0", Value = "ir" } };
+        public List<CurvePoint> TVExpression { get; set; }
+        public List<CurvePoint> TRExpression { get; set; }
 
         private Expression xexp;
         private Expression yexp;

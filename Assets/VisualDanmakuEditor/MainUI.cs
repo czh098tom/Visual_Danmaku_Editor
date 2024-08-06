@@ -8,6 +8,7 @@ using System.Diagnostics;
 using UnityEngine;
 
 using VisualDanmakuEditor.Porting;
+using VisualDanmakuEditor.IO;
 
 using static VisualDanmakuEditor.IMGUI.IMGUIHelper;
 
@@ -31,6 +32,8 @@ namespace VisualDanmakuEditor
             if (GUI.Button(new Rect(0, 0, 100, elementHeight), "Export")) Export();
             TimeLine.Instance.MaxTime = TryConvertInt(LabelledTextField(new Rect(100, 0, 100, elementHeight), "frames"
                 , TimeLine.Instance.MaxTime.ToString()), 400);
+            if (GUI.Button(new Rect(200, 0, 100, elementHeight), "Save")) Save();
+            if (GUI.Button(new Rect(300, 0, 100, elementHeight), "Load")) Load();
         }
 
         private void Export()
@@ -55,6 +58,21 @@ namespace VisualDanmakuEditor
                 FileName = Application.persistentDataPath,
                 UseShellExecute = true
             });
+        }
+
+        private void Save()
+        {
+            var saveData = new SaveModel(FindObjectOfType<ObjectUI>().Model,
+                FindObjectsOfType<BulletCalculator>().Select((a) => a.Model).Reverse());
+            IOHelper.Save(saveData, Path.Combine(Application.persistentDataPath, "_saveData"));
+        }
+
+        private void Load()
+        {
+            var saveData = IOHelper.Load(Path.Combine(Application.persistentDataPath, "_saveData"));
+            var objUI = FindObjectOfType<ObjectUI>(); 
+            objUI.AssignAndUpdateUI(saveData.Object);
+            objUI.LoadTasks(saveData.TaskModels.Select(t => t.ToTaskModel()));
         }
     }
 }

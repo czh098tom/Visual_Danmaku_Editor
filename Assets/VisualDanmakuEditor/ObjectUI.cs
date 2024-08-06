@@ -54,6 +54,15 @@ namespace VisualDanmakuEditor
             y.Value = Model.Y.ToString();
         }
 
+        public void LoadTasks(IEnumerable<TaskModel> tasks)
+        {
+            while (this.tasks.Count > 0) RemoveTaskImpl(this.tasks[0]);
+            foreach (var task in tasks)
+            {
+                AddTask(task);
+            }
+        }
+
         private void Start()
         {
             x.InputComponent.onValueChanged.AddListener(s => { Model.X = int.TryParse(s, out int v) ? v : 0; CalculateAllRelative(); });
@@ -78,9 +87,9 @@ namespace VisualDanmakuEditor
             }
         }
 
-        private void AddTask()
+        private void AddTask(TaskModel task = null)
         {
-            BulletCalculator calc = bulletAllocator.Add();
+            BulletCalculator calc = bulletAllocator.Add(task);
             TaskModel taskModel = calc.Model;
             taskModel.Shooter = Model;
             TaskItemUI taskItem = Instantiate(UIPrototypes.Instance.TaskItemUI).GetComponent<TaskItemUI>();
@@ -98,6 +107,11 @@ namespace VisualDanmakuEditor
         private void RemoveTask()
         {
             TaskItemUI target = tasks.Find(t => t.Toggle == taskGroup.GetFirstActiveToggle());
+            RemoveTaskImpl(target);
+        }
+
+        private void RemoveTaskImpl(TaskItemUI target)
+        {
             tasks.Remove(target);
             Destroy(BulletCalculator.GetCalculatorFor(target.Model).gameObject);
             Destroy(target.gameObject);

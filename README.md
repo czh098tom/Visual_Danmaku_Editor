@@ -8,7 +8,7 @@ modification can be visualized once changes have been made.
 ## Usage
 *This section is unstable and may be changed later.*
 
-Clone and build this project in Windows, Unity 2021.2.0f1c1, then run the executable.
+Clone and build this project in Windows, Unity 2021.3.14f1c1, then run the executable.
 
 ![window](/ReadmeResources/mainwindow.png)
 

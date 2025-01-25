@@ -13,18 +13,9 @@ namespace VisualDanmakuEditor
     public class TaskUIAllocator : MonoBehaviour
     {
         [SerializeField]
-        Mask viewPort;
-
-        ScrollRect scrollRect;
+        RectTransform parent;
 
         TaskUI ui = null;
-        GameObject content = null;
-
-        private void Awake()
-        {
-            scrollRect = GetComponent<ScrollRect>();
-            content = GetComponentInChildren<VerticalLayoutGroup>().gameObject;
-        }
 
         public void Set(TaskModel model)
         {
@@ -34,14 +25,8 @@ namespace VisualDanmakuEditor
                 {
                     Destroy(ui.gameObject);
                 }
-                else
-                {
-                    Destroy(content);
-                }
                 ui = Instantiate(UIPrototypes.Instance.TaskUI).GetComponent<TaskUI>();
-                ui.transform.SetParent(viewPort.transform, false);
-                scrollRect.content = ui.GetComponent<RectTransform>();
-                content = ui.gameObject;
+                ui.transform.SetParent(parent, false);
                 ui.AssignAndUpdateUI(model);
             }
             else
@@ -50,8 +35,6 @@ namespace VisualDanmakuEditor
                 {
                     Destroy(ui.gameObject);
                     ui = null;
-                    content = Instantiate(UIPrototypes.Instance.EmptyContent);
-                    content.transform.SetParent(viewPort.transform, false);
                 }
             }
         }

@@ -15,11 +15,13 @@ namespace Latticework.UnityEngine.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            Debug.Log("content enter");
             PointerEnter?.Invoke(this, null);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            Debug.Log("content exit");
             PointerExit?.Invoke(this, null);
         }
     }

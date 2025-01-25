@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b576fd7401bcc249af643189f9d6733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewPort: {fileID: 1764966004}
+  parent: {fileID: 1471669509}
 --- !u!114 &30145117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2907,6 +2907,26 @@ PrefabInstance:
     - target: {fileID: 6533342621951371905, guid: 95b8709f0a5641945813ae96a9635e55,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6533342621951371907, guid: 95b8709f0a5641945813ae96a9635e55,
+        type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6533342621951371907, guid: 95b8709f0a5641945813ae96a9635e55,
+        type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6533342621951371907, guid: 95b8709f0a5641945813ae96a9635e55,
+        type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6533342621951371907, guid: 95b8709f0a5641945813ae96a9635e55,
+        type: 3}
+      propertyPath: m_Padding.m_Bottom
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

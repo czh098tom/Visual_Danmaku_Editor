@@ -51,11 +51,14 @@ namespace Latticework.UnityEngine.UI
         RectTransform canvas;
 
         RectTransform rectTransform;
-        bool isOverThis = false;
+        int geometryOverlapCount = 0;
+        bool IsOverThis => geometryOverlapCount > 0;
 
         Vector3[] fourCornersArray = new Vector3[4];
 
         DragInfo? dragInfo = null;
+
+        Queue<int> deltasInDrag = new();
 
         private void Awake()
         {
@@ -71,7 +74,7 @@ namespace Latticework.UnityEngine.UI
         private void Update()
         {
             rectTransform.GetLocalCorners(fourCornersArray);
-            if (isOverThis)
+            if (IsOverThis)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -146,6 +149,10 @@ namespace Latticework.UnityEngine.UI
                 else if (Input.GetMouseButtonUp(0))
                 {
                     dragInfo = null;
+                    while (deltasInDrag.TryDequeue(out var delta))
+                    {
+                        geometryOverlapCount += delta;
+                    }
                 }
             }
             if (dragInfo != null)
@@ -195,22 +202,38 @@ Corner RB {fourCornersArray[3]}");
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            Debug.Log("window enter");
             SetMouseEntered();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            Debug.Log("window exit");
             SetMouseExited();
         }
 
         private void SetMouseExited()
         {
-            if (dragInfo == null) isOverThis = false;
+            if (dragInfo == null)
+            {
+                geometryOverlapCount--;
+            }
+            else
+            {
+                deltasInDrag.Enqueue(-1);
+            }
         }
 
         private void SetMouseEntered()
         {
-            isOverThis = true;
+            if (dragInfo == null)
+            {
+                geometryOverlapCount++;
+            }
+            else
+            {
+                deltasInDrag.Enqueue(1);
+            }
         }
     }
 }

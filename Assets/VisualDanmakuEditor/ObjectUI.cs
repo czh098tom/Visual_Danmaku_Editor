@@ -73,11 +73,6 @@ namespace VisualDanmakuEditor
             AssignAndUpdateUI(new FixedObject() { X = 0, Y = 100 });
         }
 
-        private void Update()
-        {
-            LayoutRebuilder.MarkLayoutForRebuild(rect);
-        }
-
         private void CalculateAllRelative()
         {
             Boss.ObjectModel = Model.BuildModelInContext(s => 0, TimeLine.Instance.CurrentTime);

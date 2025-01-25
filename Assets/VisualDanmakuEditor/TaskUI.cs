@@ -72,11 +72,6 @@ namespace VisualDanmakuEditor
             addIterator.onClick.AddListener(() => { AddNewIterator(); Calculate(); });
         }
 
-        private void Update()
-        {
-            LayoutRebuilder.MarkLayoutForRebuild(rect);
-        }
-
         public void AddNewIterator()
         {
             AdvancedRepeatModel model = new AdvancedRepeatModel();

@@ -43,6 +43,8 @@ namespace Latticework.UnityEngine.UI
         Vector2 maxSize = new Vector2(1024, 768);
         [SerializeField]
         float borderWidth = 5f;
+        [SerializeField]
+        MiniWindowContent content;
 
         public float BorderWidth { get => borderWidth; }
 
@@ -59,6 +61,11 @@ namespace Latticework.UnityEngine.UI
         {
             rectTransform = GetComponent<RectTransform>();
             canvas = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+            if (content != null)
+            {
+                content.PointerEnter += (o, e) => SetMouseExited();
+                content.PointerExit += (o, e) => SetMouseEntered();
+            }
         }
 
         private void Update()
@@ -188,18 +195,22 @@ Corner RB {fourCornersArray[3]}");
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (eventData.pointerCurrentRaycast.gameObject == gameObject)
-            {
-                isOverThis = true;
-            }
+            SetMouseEntered();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (eventData.pointerCurrentRaycast.gameObject != gameObject)
-            {
-                if (dragInfo == null) isOverThis = false;
-            }
+            SetMouseExited();
+        }
+
+        private void SetMouseExited()
+        {
+            if (dragInfo == null) isOverThis = false;
+        }
+
+        private void SetMouseEntered()
+        {
+            isOverThis = true;
         }
     }
 }
